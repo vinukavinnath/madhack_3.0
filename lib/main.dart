@@ -3,7 +3,8 @@ import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
 
 //Pages
-import 'package:async_and_await/view/pages/splash_screen.dart';
+import 'package:async_and_await/view/pages/sign_in_page.dart';
+
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -30,7 +31,7 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
       ),
       home: const SafeArea(
-        child: SplashScreen(),
+        child: SignInPage(),
       ),
     );
   }

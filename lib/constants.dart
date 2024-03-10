@@ -12,3 +12,15 @@ const kLightBlueColor = Color(0xFFB4D7FE);
 const kAshWhiteColor = Color(0xFFF4F7F9);
 const kDarkGreyColor = Color(0xFF4B4646);
 const kLowOpacityLightBlueColor = Color.fromARGB(102, 180, 215, 254);
+
+//TextStyles
+const kHeading1TextStyle = TextStyle(
+  color: kDeepBlueColor,
+  fontSize: 25.0,
+  fontWeight: FontWeight.bold,
+);
+
+const kPrimaryButtonTextStyle = TextStyle(
+  color: kWhiteColor,
+  fontSize: 16.0,
+);

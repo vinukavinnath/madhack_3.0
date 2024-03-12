@@ -1,3 +1,4 @@
+import 'package:async_and_await/view/pages/account_type.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
@@ -31,7 +32,7 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
       ),
       home: const SafeArea(
-        child: SignInPage(),
+        child: AccountType(),
       ),
     );
   }

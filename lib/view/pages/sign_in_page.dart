@@ -1,7 +1,9 @@
 import 'package:async_and_await/view/widgets/primary_button.dart';
 import 'package:flutter/material.dart';
+import 'package:toggle_switch/toggle_switch.dart';
 
 import 'package:async_and_await/constants.dart';
+import 'package:async_and_await/view/widgets/auth_container.dart';
 
 class SignInPage extends StatefulWidget {
   const SignInPage({super.key});
@@ -74,50 +76,41 @@ class _SignInPageState extends State<SignInPage> {
                             mainAxisSize: MainAxisSize.max,
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: <Widget>[
-                              const SizedBox(
-                                height: 30.0,
+                              const Padding(
+                                padding: EdgeInsets.symmetric(vertical: 8.0),
+                                child: Text(
+                                  'Welcome Back!',
+                                  style: kHeading1TextStyle,
+                                ),
                               ),
-                              const Text(
-                                'Welcome Back!',
-                                style: kHeading1TextStyle,
+                              Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(vertical: 16.0),
+                                child: ToggleSwitch(
+                                  activeBgColor: const [kOceanBlueColor],
+                                  activeFgColor: kDeepBlueColor,
+                                  inactiveBgColor: kLightBlueColor,
+                                  inactiveFgColor: kOceanBlueColor,
+                                  cornerRadius: 10.0,
+                                  radiusStyle: true,
+                                  minWidth: screenWidth / 2,
+                                  minHeight: 45.0,
+                                  initialLabelIndex: 0,
+                                  totalSwitches: 2,
+                                  customTextStyles: const [
+                                    TextStyle(
+                                        fontSize: 15.0,
+                                        fontWeight: FontWeight.w600),
+                                    TextStyle(
+                                        fontSize: 15.0,
+                                        fontWeight: FontWeight.w600),
+                                  ],
+                                  animate: true,
+                                  curve: Curves.ease,
+                                  labels: const ['Applicant', 'Employer'],
+                                  onToggle: null,
+                                ),
                               ),
-                              // Padding(
-                              //   padding: const EdgeInsets.symmetric(
-                              //       vertical: 16.0),
-                              //   child: Container(
-                              //     // margin: EdgeInsets.symmetric(horizontal: 20.0),
-                              //     // width: screenWidth,
-                              //     child: ToggleSwitch(
-                              //       activeBgColor: const [
-                              //         kOceanBlueColor
-                              //       ],
-                              //       activeFgColor: kDeepBlueColor,
-                              //       inactiveBgColor: kLightBlueColor,
-                              //       inactiveFgColor: kOceanBlueColor,
-                              //       cornerRadius: 10.0,
-                              //       radiusStyle: true,
-                              //       minWidth: screenWidth / 2,
-                              //       minHeight: 45.0,
-                              //       initialLabelIndex: currentUserRole,
-                              //       totalSwitches: 2,
-                              //       customTextStyles: const [
-                              //         TextStyle(
-                              //             fontSize: 15.0,
-                              //             fontWeight: FontWeight.w600),
-                              //         TextStyle(
-                              //             fontSize: 15.0,
-                              //             fontWeight: FontWeight.w600),
-                              //       ],
-                              //       animate: true,
-                              //       curve: Curves.ease,
-                              //       labels: const [
-                              //         'Freelancer',
-                              //         'Client'
-                              //       ],
-                              //       onToggle: _onToggle,
-                              //     ),
-                              //   ),
-                              // ),
                               Form(
                                 key: _formKey,
                                 child: Column(
@@ -234,92 +227,20 @@ class _SignInPageState extends State<SignInPage> {
                                   ],
                                 ),
                               ),
-                              // Container(
-                              //   width: screenWidth,
-                              //   padding: const EdgeInsets.symmetric(
-                              //       vertical: 8.0, horizontal: 28.0),
-                              //   child: ElevatedButton(
-                              //     style: ElevatedButton.styleFrom(
-                              //       padding: const EdgeInsets.symmetric(
-                              //         vertical: 6.0,
-                              //         horizontal: 24.0,
-                              //       ),
-                              //       backgroundColor: kLightBlueColor,
-                              //       shape: RoundedRectangleBorder(
-                              //         borderRadius: BorderRadius.circular(16.0),
-                              //       ),
-                              //     ),
-                              //     onPressed: () {},
-                              //     child: Padding(
-                              //       padding: const EdgeInsets.all(8.0),
-                              //       child:
-                              //       Row(
-                              //         mainAxisAlignment:
-                              //             MainAxisAlignment.center,
-                              //         children: [
-                              //           Image.asset(
-                              //             'icons/google.png',
-                              //             width: 25.0,
-                              //           ),
-                              //           const SizedBox(width: 15.0),
-                              //           const Text(
-                              //             'Google',
-                              //             style: TextStyle(
-                              //                 color: kDeepBlueColor,
-                              //                 fontSize: 15.0,
-                              //                 fontWeight: FontWeight.bold),
-                              //           ),
-                              //         ],
-                              //       ),
-                              //     ),
-                              //   ),
-                              // ),
-                              Row(
+                              const Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: <Widget>[
-                                  Container(
-                                    width: 75,
-                                    height: 75,
-                                    padding: const EdgeInsets.all(15.0),
-                                    decoration: BoxDecoration(
-                                      color: kWhiteColor,
-                                      borderRadius: BorderRadius.circular(20.0),
-                                    ),
-                                    child: const Image(
-                                      image: AssetImage(
-                                        'assets/logos/apple.webp',
-                                      ),
-                                    ),
+                                  AuthContainer(
+                                    imagePath: "assets/logos/apple.webp",
+                                    function: null,
                                   ),
-                                  Container(
-                                    width: 75,
-                                    height: 75,
-                                    margin: const EdgeInsets.symmetric(
-                                        horizontal: 20.0,vertical: 10.0),
-                                    padding: const EdgeInsets.all(15.0),
-                                    decoration: BoxDecoration(
-                                      color: kWhiteColor,
-                                      borderRadius: BorderRadius.circular(20.0),
-                                    ),
-                                    child: const Image(
-                                      image: AssetImage(
-                                        'assets/logos/google.webp',
-                                      ),
-                                    ),
+                                  AuthContainer(
+                                    imagePath: "assets/logos/google.webp",
+                                    function: null,
                                   ),
-                                  Container(
-                                    width: 75,
-                                    height: 75,
-                                    padding: const EdgeInsets.all(15.0),
-                                    decoration: BoxDecoration(
-                                      color: kWhiteColor,
-                                      borderRadius: BorderRadius.circular(20.0),
-                                    ),
-                                    child: const Image(
-                                      image: AssetImage(
-                                        'assets/logos/facebook.webp',
-                                      ),
-                                    ),
+                                  AuthContainer(
+                                    imagePath: "assets/logos/facebook.webp",
+                                    function: null,
                                   ),
                                 ],
                               ),

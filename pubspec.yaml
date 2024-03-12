@@ -37,6 +37,8 @@ dependencies:
   cupertino_icons: ^1.0.6
   firebase_core: ^2.26.0
   toggle_switch: ^2.1.0
+  go_router: ^13.2.0
+  firebase_auth: ^4.17.9
 
 dev_dependencies:
   flutter_test:

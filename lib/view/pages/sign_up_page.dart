@@ -165,8 +165,8 @@ class _SignUpPageState extends State<SignUpPage> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: <Widget>[
                     const Padding(
-                      padding:
-                          EdgeInsets.symmetric(vertical: 32.0, horizontal: 8.0),
+                      padding: EdgeInsets.symmetric(
+                          vertical: 32.0, horizontal: 8.0),
                       child: Text(
                         'Create My Account',
                         style: kHeading1TextStyle,
@@ -235,7 +235,8 @@ class _SignUpPageState extends State<SignUpPage> {
                                 hintText: 'Password',
                                 suffixIcon: IconButton(
                                   icon: obsecureController0
-                                      ? const Icon(Icons.visibility_off_rounded)
+                                      ? const Icon(
+                                          Icons.visibility_off_rounded)
                                       : const Icon(Icons.visibility_rounded),
                                   color: kBlackColor,
                                   onPressed: () {
@@ -272,7 +273,8 @@ class _SignUpPageState extends State<SignUpPage> {
                                 hintText: 'Confirm Password',
                                 suffixIcon: IconButton(
                                   icon: obsecureController1
-                                      ? const Icon(Icons.visibility_off_rounded)
+                                      ? const Icon(
+                                          Icons.visibility_off_rounded)
                                       : const Icon(Icons.visibility_rounded),
                                   color: kBlackColor,
                                   onPressed: () {
@@ -300,7 +302,8 @@ class _SignUpPageState extends State<SignUpPage> {
                         title: Wrap(
                           children: [
                             const Text(
-                              'I have read and agree to MadHack’s',style: kNormalTextStyle,
+                              'I have read and agree to MadHack’s',
+                              style: kNormalTextStyle,
                             ),
                             GestureDetector(
                               onTap: () {
@@ -311,11 +314,13 @@ class _SignUpPageState extends State<SignUpPage> {
                                 // );
                               },
                               child: const Text(
-                                'Term of Service',style: kNormalTextStyle,
+                                'Term of Service',
+                                style: kNormalTextStyle,
                               ),
                             ),
                             const Text(
-                              ' and',style: kNormalTextStyle,
+                              ' and',
+                              style: kNormalTextStyle,
                             ),
                             GestureDetector(
                               onTap: () {
@@ -326,7 +331,8 @@ class _SignUpPageState extends State<SignUpPage> {
                                 // );
                               },
                               child: const Text(
-                                ' Privacy Policy',style: kNormalTextStyle,
+                                ' Privacy Policy',
+                                style: kNormalTextStyle,
                               ),
                             ),
                           ],
@@ -348,7 +354,8 @@ class _SignUpPageState extends State<SignUpPage> {
                         title: const Wrap(
                           children: [
                             Text(
-                              'We reserve the right to terminate or suspend your account at any time for violating our policies.',style: kNormalTextStyle,
+                              'We reserve the right to terminate or suspend your account at any time for violating our policies.',
+                              style: kNormalTextStyle,
                             ),
                           ],
                         ),

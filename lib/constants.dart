@@ -30,3 +30,8 @@ const kSecondaryButtonTextStyle = TextStyle(
   fontSize: 16.0,
   fontWeight: FontWeight.bold
 );
+
+const kNormalTextStyle = TextStyle(
+    color: kBlackColor,
+    fontSize: 14.0,
+);

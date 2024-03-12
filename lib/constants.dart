@@ -24,3 +24,9 @@ const kPrimaryButtonTextStyle = TextStyle(
   color: kWhiteColor,
   fontSize: 16.0,
 );
+
+const kSecondaryButtonTextStyle = TextStyle(
+  color: kDeepBlueColor,
+  fontSize: 16.0,
+  fontWeight: FontWeight.bold
+);

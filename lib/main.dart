@@ -1,13 +1,13 @@
-import 'package:async_and_await/view/pages/account_type.dart';
-import 'package:async_and_await/view/pages/forgot_password.dart';
-import 'package:async_and_await/view/pages/sign_up_page.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
 
 //Pages
 import 'package:async_and_await/view/pages/sign_in_page.dart';
-
+import 'package:async_and_await/view/pages/account_type.dart';
+import 'package:async_and_await/view/pages/forgot_password.dart';
+import 'package:async_and_await/view/pages/sign_up_page.dart';
+import 'package:async_and_await/view/pages/verify_account.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -34,7 +34,7 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
       ),
       home: const SafeArea(
-        child: SignUpPage(),
+        child: VerifyAccount(),
       ),
     );
   }

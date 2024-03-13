@@ -1,6 +1,10 @@
+import 'package:async_and_await/view/widgets/custom_snack_bar.dart';
 import 'package:async_and_await/view/widgets/primary_button.dart';
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:async_and_await/constants.dart';
+import 'package:go_router/go_router.dart';
 
 class SignUpPage extends StatefulWidget {
   const SignUpPage({super.key});
@@ -28,61 +32,53 @@ class _SignUpPageState extends State<SignUpPage> {
     super.dispose();
   }
 
-  // void createMyAccount() async {
-  //   final String enteredEmail = email.text.trim();
-  //   final String enteredPassword = password.text.trim();
-  //   final String confirmPassword = confirmPasswordController.text.trim();
-  //   try {
-  //     if (enteredPassword == confirmPassword) {
-  //       await FirebaseAuth.instance.createUserWithEmailAndPassword(
-  //         email: enteredEmail,
-  //         password: enteredPassword,
-  //       );
-  //       sendVerificationLink(email.text);
-  //
-  //       Fluttertoast.showToast(
-  //         msg: "Account was successfully created",
-  //         toastLength: Toast.LENGTH_SHORT,
-  //         gravity: ToastGravity.CENTER,
-  //         timeInSecForIosWeb: 2,
-  //         backgroundColor: Colors.blue,
-  //         textColor: Colors.white,
-  //         fontSize: 24.0,
-  //
-  //         // Account creation successful
-  //       );
-  //     } else if (enteredPassword != confirmPassword) {
-  //       // Show a snackbar if passwords don't match
-  //       ScaffoldMessenger.of(context).showSnackBar(
-  //         CusSnackBar(
-  //           title: 'Password does not match',
-  //           backColor: kWarningRedColor,
-  //           time: 3,
-  //         ),
-  //       );
-  //     }
-  //   } on FirebaseAuthException catch (e) {
-  //     if (e.code == 'weak-password') {
-  //       // The password provided is too weak
-  //       ScaffoldMessenger.of(context).showSnackBar(
-  //         CusSnackBar(
-  //           title: 'Weak password',
-  //           backColor: kWarningRedColor,
-  //           time: 3,
-  //         ),
-  //       );
-  //     } else if (e.code == 'email-already-in-use') {
-  //       // The account already exists for that email
-  //       ScaffoldMessenger.of(context).showSnackBar(
-  //         CusSnackBar(
-  //           title: 'Email already in use',
-  //           backColor: kWarningRedColor,
-  //           time: 3,
-  //         ),
-  //       );
-  //     }
-  //   }
-  // }
+  void createMyAccount() async {
+    final String enteredEmail = email.text.trim();
+    final String enteredPassword = password.text.trim();
+    final String confirmedPassword= confirmPasswordController.text.trim();
+    try {
+      if (enteredPassword == confirmedPassword) {
+        await FirebaseAuth.instance.createUserWithEmailAndPassword(
+          email: enteredEmail,
+          password: enteredPassword,
+        );
+        sendVerificationLink(email.text);
+
+        // Fluttertoast.showToast(
+        //   msg: "Account was successfully created",
+        //   toastLength: Toast.LENGTH_SHORT,
+        //   gravity: ToastGravity.CENTER,
+        //   timeInSecForIosWeb: 2,
+        //   backgroundColor: Colors.blue,
+        //   textColor: Colors.white,
+        //   fontSize: 24.0,
+
+        // Account creation successful
+        // );
+      } else if (enteredPassword != confirmedPassword) {
+        // Show a snackbar if passwords don't match
+        ScaffoldMessenger.of(context).showSnackBar(
+          CustomSnackBar('Password does not match', kRedColor, 3),
+        );
+      }
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'weak-password') {
+        // The password provided is too weak
+        ScaffoldMessenger.of(context).showSnackBar(
+          CustomSnackBar(
+            'Weak password',
+            kRedColor,
+            3,
+          ),
+        );
+      } else if (e.code == 'email-already-in-use') {
+        // The account already exists for that email
+        ScaffoldMessenger.of(context).showSnackBar(
+          CustomSnackBar('Email already in use', kRedColor, 3),
+        );
+      }
+    }
+  }
 
   bool isCreateAccountButtonActive() {
     if (isChecked1 == true && isChecked2 == true) {
@@ -104,27 +100,19 @@ class _SignUpPageState extends State<SignUpPage> {
     });
   }
 
-  // void _navigateToVerifyEmail() {
-  //   // Navigator.of(context).pushReplacement(
-  //   //   MaterialPageRoute(
-  //   //     builder: (context) => const VerifyEmail(),
-  //   //   ),
-  //   // );
-  // }
+  Future<void> sendVerificationLink(String email) async {
+    try {
+      final user = FirebaseAuth.instance.currentUser;
 
-  // Future<void> sendVerificationLink(String email) async {
-  //   try {
-  //     final user = FirebaseAuth.instance.currentUser;
-  //
-  //     if (user != null && !user.emailVerified) {
-  //       await user.sendEmailVerification();
-  //       _navigateToVerifyEmail();
-  //     }
-  //   } catch (e) {
-  //     //Ignored catch block
-  //   }
-  // }
-  //
+      if (user != null && !user.emailVerified) {
+        await user.sendEmailVerification();
+        context.go('/verify_account');
+      }
+    } catch (e) {
+      //Ignored catch block
+    }
+  }
+
   // Future<void> _showMarkdownDialog(BuildContext context) async {
   //   String markdownContent = await rootBundle.loadString('assets/11.md');
   //   showDialog(
@@ -165,8 +153,8 @@ class _SignUpPageState extends State<SignUpPage> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: <Widget>[
                     const Padding(
-                      padding: EdgeInsets.symmetric(
-                          vertical: 32.0, horizontal: 8.0),
+                      padding:
+                          EdgeInsets.symmetric(vertical: 32.0, horizontal: 8.0),
                       child: Text(
                         'Create My Account',
                         style: kHeading1TextStyle,
@@ -235,8 +223,7 @@ class _SignUpPageState extends State<SignUpPage> {
                                 hintText: 'Password',
                                 suffixIcon: IconButton(
                                   icon: obsecureController0
-                                      ? const Icon(
-                                          Icons.visibility_off_rounded)
+                                      ? const Icon(Icons.visibility_off_rounded)
                                       : const Icon(Icons.visibility_rounded),
                                   color: kBlackColor,
                                   onPressed: () {
@@ -273,8 +260,7 @@ class _SignUpPageState extends State<SignUpPage> {
                                 hintText: 'Confirm Password',
                                 suffixIcon: IconButton(
                                   icon: obsecureController1
-                                      ? const Icon(
-                                          Icons.visibility_off_rounded)
+                                      ? const Icon(Icons.visibility_off_rounded)
                                       : const Icon(Icons.visibility_rounded),
                                   color: kBlackColor,
                                   onPressed: () {
@@ -369,15 +355,14 @@ class _SignUpPageState extends State<SignUpPage> {
                           if (_formKey.currentState!.validate()) {
                             // Form is valid, proceed with submission or other actions
                             if (isCreateAccountButtonActive()) {
-                              // createMyAccount();
+                              createMyAccount();
                             } else {
-                              // ScaffoldMessenger.of(context).showSnackBar(
-                              //   CusSnackBar(
-                              //     title: 'Please agree to Terms & Conditions',
-                              //     backColor: kWarningRedColor,
-                              //     time: 3,
-                              //   ),
-                              // );
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                CustomSnackBar(
+                                    'Please agree to Terms & Conditions',
+                                    kRedColor,
+                                    3),
+                              );
                             }
                           }
                         },
@@ -389,11 +374,7 @@ class _SignUpPageState extends State<SignUpPage> {
                         const Text('Already registered?'),
                         TextButton(
                           onPressed: () {
-                            // Navigator.of(context).pushReplacement(
-                            //   MaterialPageRoute(
-                            //     builder: (context) => const Login(),
-                            //   ),
-                            // );
+                            context.go('/sign_in');
                           },
                           child: const Text(
                             'Log In',

@@ -1,7 +1,12 @@
+import 'package:async_and_await/view/widgets/custom_snack_bar.dart';
 import 'package:async_and_await/view/widgets/primary_button.dart';
 import 'package:async_and_await/view/widgets/secondary_button.dart';
+import 'package:async_and_await/view/widgets/alert_dialog_box.dart';
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:external_app_launcher/external_app_launcher.dart';
 import 'package:async_and_await/constants.dart';
+import 'package:go_router/go_router.dart';
 
 class ForgotPassword extends StatefulWidget {
   const ForgotPassword({super.key});
@@ -21,89 +26,85 @@ class _ForgotPasswordState extends State<ForgotPassword> {
   }
 
   //Alert message Method
-  // void _alertDialog() {
-  //   showDialog(
-  //     barrierDismissible: false,
-  //     context: context,
-  //     builder: (context) {
-  //       return MaintenancePage(
-  //         [
-  //           Image.asset('images/magnifier.webp'),
-  //           const Text(
-  //             'Check Your Email!',
-  //             style: kSubHeadingTextStyle,
-  //             textAlign: TextAlign.center,
-  //           ),
-  //           const Padding(
-  //             padding: EdgeInsets.symmetric(vertical: 4.0),
-  //             child: Text(
-  //               'We’ve sent a password reset link to Inbox',
-  //               style: kTextStyle,
-  //               textAlign: TextAlign.center,
-  //             ),
-  //           ),
-  //           DarkMainButton(
-  //               title: 'Check Inbox',
-  //               process: () async {
-  //                 await LaunchApp.openApp(
-  //                   androidPackageName: 'com.google.android.gm',
-  //                   openStore: false,
-  //                 );
-  //               },
-  //               screenWidth: MediaQuery.of(context).size.width),
-  //           const Padding(
-  //             padding: EdgeInsets.all(4.0),
-  //             child: Text(
-  //               'After resetting the password you can now login to Taskmate with your new password',
-  //               style: kTextStyle,
-  //               textAlign: TextAlign.center,
-  //             ),
-  //           ),
-  //           LightMainButton(
-  //               title: 'Login Now',
-  //               process: () {
-  //                 Navigator.of(context).push(
-  //                   MaterialPageRoute(
-  //                     builder: (context) => const Login(),
-  //                   ),
-  //                 );
-  //               },
-  //               screenWidth: MediaQuery.of(context).size.width)
-  //         ],
-  //       );
-  //     },
-  //   );
-  // }
+  void _alertDialog() {
+    showDialog(
+      barrierDismissible: false,
+      context: context,
+      builder: (context) {
+        return AlertDialogBox(
+          [
+            Image.asset('images/magnifier.webp'),
+            const Text(
+              'Check Your Email!',
+              style: kHeading2TextStyle,
+              textAlign: TextAlign.center,
+            ),
+            const Padding(
+              padding: EdgeInsets.symmetric(vertical: 4.0),
+              child: Text(
+                'We’ve sent a password reset link to Inbox',
+                style: kNormalTextStyle,
+                textAlign: TextAlign.center,
+              ),
+            ),
+            PrimaryButton(
+              title: 'Check Inbox',
+              process: () async {
+                await LaunchApp.openApp(
+                  androidPackageName: 'com.google.android.gm',
+                  openStore: false,
+                );
+              },
+            ),
+            const Padding(
+              padding: EdgeInsets.all(4.0),
+              child: Text(
+                'After resetting the password you can now login to Madhack with your new password',
+                style: kNormalTextStyle,
+                textAlign: TextAlign.center,
+              ),
+            ),
+            SecondaryButton(
+              title: 'Login Now',
+              process: () {
+                context.go('/sign_in');
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
 
-//Forget password Method
-//   Future forgetPassword() async {
-//     try {
-//       await FirebaseAuth.instance.sendPasswordResetEmail(
-//         email: _forgetPasswordController.text.trim(),
-//       );
-//       _alertDialog();
-//     } on FirebaseAuthException catch (e) {
-//       if (e.code == 'invalid-email') {
-//         _forgetPasswordController.clear();
-//         ScaffoldMessenger.of(context).showSnackBar(
-//           CustomSnackBar('Enter a valid email address'),
-//         );
-//         // Handle invalid email address
-//       } else if (e.code == 'user-not-found') {
-//         _forgetPasswordController.clear();
-//         ScaffoldMessenger.of(context).showSnackBar(
-//           CustomSnackBar('User not Found'),
-//         );
-//       } else if (e.code == 'too-many-requests') {
-//         _forgetPasswordController.clear();
-//         ScaffoldMessenger.of(context).showSnackBar(
-//           CustomSnackBar('Maximum attempt count reached'),
-//         );
-//       } else {
-//         // Handle other FirebaseAuthExceptions
-//       }
-//     }
-//   }
+// Forget password Method
+  Future forgetPassword() async {
+    try {
+      await FirebaseAuth.instance.sendPasswordResetEmail(
+        email: _forgetPasswordController.text.trim(),
+      );
+      _alertDialog();
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'invalid-email') {
+        _forgetPasswordController.clear();
+        ScaffoldMessenger.of(context).showSnackBar(
+          CustomSnackBar('Enter a valid email address', kAmberColor, 3),
+        );
+        // Handle invalid email address
+      } else if (e.code == 'user-not-found') {
+        _forgetPasswordController.clear();
+        ScaffoldMessenger.of(context).showSnackBar(
+          CustomSnackBar('User not Found', kAmberColor, 3),
+        );
+      } else if (e.code == 'too-many-requests') {
+        _forgetPasswordController.clear();
+        ScaffoldMessenger.of(context).showSnackBar(
+          CustomSnackBar('Maximum attempt count reached', kAmberColor, 3),
+        );
+      } else {
+        // Handle other FirebaseAuthExceptions
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -189,12 +190,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                 SecondaryButton(
                     title: 'Cancel',
                     process: () {
-                      //   Navigator.of(context).push(
-                      //     MaterialPageRoute(
-                      //       builder: (context) => const Login(),
-                      //     ),
-                      //   );
-                      // },
+                      context.go('/sign_in');
                     }),
                 const SizedBox(
                   height: 50.0,

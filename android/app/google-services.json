@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "311636204533",
+    "project_id": "madhack3-dc98b",
+    "storage_bucket": "madhack3-dc98b.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:311636204533:android:0ce1851a39a5307f7c1ebc",
+        "android_client_info": {
+          "package_name": "com.example.async_and_await"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBx6ZH0cL2VIA9VagzFBHoIz5ntKXW_oYs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

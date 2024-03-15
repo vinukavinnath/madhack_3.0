@@ -49,11 +49,10 @@ android {
         targetSdkVersion flutter.targetSdkVersion
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
-<<<<<<< HEAD
-        multiDexEnabled = true
-=======
+
         multiDexEnabled true
->>>>>>> user_dashboard
+
+
     }
 
     buildTypes {

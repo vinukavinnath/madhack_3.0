@@ -1,5 +1,6 @@
 import 'package:async_and_await/constants.dart';
 import 'package:async_and_await/view/pages/about_us.dart';
+import 'package:async_and_await/view/pages/authentication/sign_in_page.dart';
 import 'package:async_and_await/view/pages/employer/jobposting.dart';
 import 'package:async_and_await/view/pages/help_support.dart';
 import 'package:async_and_await/view/pages/home_page_applicant.dart';
@@ -16,8 +17,7 @@ class HiddenDrawerEmployer extends StatefulWidget {
 
 class _HiddenDrawerEmployerState extends State<HiddenDrawerEmployer> {
   List<ScreenHiddenDrawer> _pages = [];
-  final selectedTextStyle =
-  const TextStyle(
+  final selectedTextStyle = const TextStyle(
     fontSize: 18,
     color: kWhiteColor,
     fontWeight: FontWeight.bold,
@@ -31,7 +31,7 @@ class _HiddenDrawerEmployerState extends State<HiddenDrawerEmployer> {
             name: 'Home',
             baseStyle: selectedTextStyle,
             selectedStyle: kHeading1TextStyle),
-         JobPosting(),
+        JobPosting(),
       ),
       ScreenHiddenDrawer(
         ItemHiddenMenu(
@@ -66,6 +66,14 @@ class _HiddenDrawerEmployerState extends State<HiddenDrawerEmployer> {
       initPositionSelected: 0,
       slidePercent: 50,
       isDraggable: true,
+      actionsAppBar: [
+        IconButton(
+            onPressed: () {
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => SignInPage()));
+            },
+            icon: Icon(Icons.logout)),
+      ],
     );
   }
 }

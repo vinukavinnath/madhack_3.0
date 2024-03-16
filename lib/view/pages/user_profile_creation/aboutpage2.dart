@@ -253,24 +253,18 @@ class _AboutPage2State extends State<AboutPage2> {
                           MaterialPageRoute(
                               builder: (context) => AboutPage3(
                                     userUid: widget.userUid,
-                                    fullNameController:
-                                        widget.fullNameController,
+                                    fullNameController: widget.fullNameController,
                                     dobController: widget.dobController,
                                     emailController: widget.emailController,
-                                    phoneNumberController:
-                                        widget.phoneNumberController,
-                                    selectedCountryCode:
-                                        widget.selectedCountryCode,
+                                    phoneNumberController: widget.phoneNumberController,
+                                    selectedCountryCode: widget.selectedCountryCode,
                                     links: widget.links,
                                     jobtitleController: jobtitleController,
                                     companyController: companyController,
                                     isCurrentPosition: isCurrentPosition,
-                                    workstartdateController:
-                                        workstartdateController,
-                                    workenddateController:
-                                        workenddateController,
-                                    descriptionController:
-                                        descriptionController,
+                                    workstartdateController: workstartdateController,
+                                    workenddateController: workenddateController,
+                                    descriptionController: descriptionController,
                                   )), // Replace AboutPage2 with the actual page name
                         );
                       })

@@ -1,6 +1,8 @@
 import 'package:async_and_await/view/pages/employer/jobposting.dart';
 import 'package:async_and_await/view/pages/user_profile_creation/aboutpage1.dart';
 import 'package:async_and_await/view/widgets/hidden_drawer_employer.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:async_and_await/constants.dart';
 
@@ -158,13 +160,20 @@ class _AccountTypeState extends State<AccountType> {
                                   ),
                                 ),
                                 GestureDetector(
-                                  onTap: () {
+                                  onTap: () async {
+                                    final user =
+                                        FirebaseAuth.instance.currentUser;
+                                    await FirebaseFirestore.instance
+                                        .collection('Employer')
+                                        .doc(user!.email)
+                                        .set({});
                                     setState(() {
                                       isWork = false;
                                       isHire = true;
                                       Navigator.of(context).pushReplacement(
                                         MaterialPageRoute(
-                                          builder: (context) => HiddenDrawerEmployer(),
+                                          builder: (context) =>
+                                              const HiddenDrawerEmployer(),
                                         ),
                                       );
                                     });

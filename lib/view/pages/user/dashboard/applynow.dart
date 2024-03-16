@@ -10,10 +10,10 @@ class ApplyNow extends StatefulWidget {
   final String docid;
 
   const ApplyNow({
-    Key? key,
+    super.key,
     required this.jobData,
     required this.docid,
-  }) : super(key: key);
+  });
 
   @override
   _ApplyNowState createState() => _ApplyNowState();
@@ -43,39 +43,38 @@ class _ApplyNowState extends State<ApplyNow> {
                   height: 100,
                   fit: BoxFit.cover,
                 ),
-              SizedBox(height: 16.0),
+              const SizedBox(height: 16.0),
               Text('Category: ${widget.jobData['emp_category'] ?? ''}'),
-              SizedBox(height: 8.0),
+              const SizedBox(height: 8.0),
               Text('Location: ${widget.jobData['emp_location'] ?? ''}'),
-              SizedBox(height: 8.0),
+              const SizedBox(height: 8.0),
               Text('Workspace: ${widget.jobData['emp_workspace'] ?? ''}'),
-              SizedBox(height: 8.0),
+              const SizedBox(height: 8.0),
               Text('Job Type: ${widget.jobData['emp_jobtype'] ?? ''}'),
-              SizedBox(height: 8.0),
-              Text('Salary: \$${widget.jobData['emp_min_Salary'] ?? ''}-${widget.jobData['emp_max_Salary'] ?? ''} / Mo'),
-
-              SizedBox(height: 40.0),
+              const SizedBox(height: 8.0),
+              Text(
+                  'Salary: \$${widget.jobData['emp_min_Salary'] ?? ''}-${widget.jobData['emp_max_Salary'] ?? ''} / Mo'),
+              const SizedBox(height: 40.0),
               TextField(
                 controller: cvController,
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   labelText: 'CV',
                   hintText: 'Enter your CV link here',
                   border: OutlineInputBorder(),
                 ),
               ),
-
-              Text(
+              const Text(
                 'Add your CV link here....',
                 style: TextStyle(
                   fontSize: 16.0, // Adjust the font size as needed
-                  fontWeight: FontWeight.bold, // You can adjust the font weight as needed
+                  fontWeight: FontWeight
+                      .bold, // You can adjust the font weight as needed
                 ),
               ),
-
-              SizedBox(height: 16.0),
+              const SizedBox(height: 16.0),
               TextField(
                 controller: messageController,
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   labelText: 'Message',
                   hintText: 'Enter message here',
                   border: OutlineInputBorder(),
@@ -97,23 +96,12 @@ class _ApplyNowState extends State<ApplyNow> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => JobShowing(), // Replace ApplyNowPage with your next page
+                    builder: (context) =>
+                        const JobShowing(), // Replace ApplyNowPage with your next page
                   ),
                 );
               },
-              child: Text('Submit'),
-            ),
-            IconButton(
-              onPressed: () {
-                // Navigator.push(
-                //   context,
-                //   MaterialPageRoute(
-                //     builder: (context) => AcceptPage(
-                //         docId: widget.docid,), // Replace ApplyNowPage with your next page
-                //   ),
-                // );
-              },
-              icon: Icon(Icons.save_as_rounded),
+              child: const Text('Submit'),
             ),
           ],
         ),
@@ -143,20 +131,19 @@ class _ApplyNowState extends State<ApplyNow> {
           'cv': cv,
           'message': message,
           'feedback': feedback,
-
         });
 
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
           content: Text('Applied to the job successfully!'),
         ));
       } catch (error) {
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
           content: Text('Failed to apply to the job. Please try again later.'),
         ));
         print('Error applying to job: $error');
       }
     } else {
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
         content: Text('You need to be logged in to apply to this job.'),
       ));
     }

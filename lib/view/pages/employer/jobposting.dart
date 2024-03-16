@@ -1,9 +1,12 @@
+import 'package:async_and_await/view/widgets/primary_button.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'description.dart';
 import 'jobcard.dart';
 
 class JobPosting extends StatefulWidget {
+  const JobPosting({super.key});
+
   @override
   _JobPostingState createState() => _JobPostingState();
 }
@@ -15,35 +18,43 @@ class _JobPostingState extends State<JobPosting> {
 
   @override
   Widget build(BuildContext context) {
-
+    final double screenHeight = MediaQuery.of(context).size.height;
     return Scaffold(
-      appBar: AppBar(
-        leading: IconButton(
-          icon: Icon(Icons.menu),
-          onPressed: () => Navigator.pop(context),
-        ),
-      ),
-      body: SingleChildScrollView(
-        padding: EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: <Widget>[
-            _buildSearchBarWithFilter(),
-            SizedBox(height: 16.0), // Adjust as needed for spacing
-            _buildCreateNewJobButton(context),
-            SizedBox(height: 16.0), // Adjust as needed for spacing
-            Text(
-              'Recently Created',
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 16.0,
+      body: Container(
+        height: screenHeight,
+        padding: const EdgeInsets.symmetric(horizontal: 24.0),
+        decoration: const BoxDecoration(
+          image: DecorationImage(
+              image: AssetImage(
+                'assets/images/noise.webp',
               ),
-            ),
-            SizedBox(height: 16.0), // Adjust as needed for spacing
-            JobCard(searchKeyword: searchKeyword, desiredLocation: desiredLocation), // Pass desiredLocation to JobCard
-            // Add other content here
-          ],
+              fit: BoxFit.fill),
+        ),
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.all(12.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: <Widget>[
+              _buildSearchBarWithFilter(),
+              const SizedBox(height: 16.0), // Adjust as needed for spacing
+              _buildCreateNewJobButton(context),
+              const SizedBox(height: 16.0), // Adjust as needed for spacing
+              const Text(
+                'Recently Created',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 16.0,
+                ),
+              ),
+              const SizedBox(height: 16.0), // Adjust as needed for spacing
+              JobCard(
+                  searchKeyword: searchKeyword,
+                  desiredLocation:
+                      desiredLocation), // Pass desiredLocation to JobCard
+              // Add other content here
+            ],
+          ),
         ),
       ),
     );
@@ -51,7 +62,7 @@ class _JobPostingState extends State<JobPosting> {
 
   Widget _buildSearchBarWithFilter() {
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+      padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
       decoration: BoxDecoration(
         color: Colors.grey[200],
         borderRadius: BorderRadius.circular(8.0),
@@ -65,18 +76,17 @@ class _JobPostingState extends State<JobPosting> {
                   searchKeyword = value;
                 });
               },
-              decoration: InputDecoration(
+              decoration: const InputDecoration(
                 hintText: 'Search Jobs...',
                 border: InputBorder.none,
                 icon: Icon(Icons.search),
               ),
             ),
           ),
-          SizedBox(width: 10.0),
+          const SizedBox(width: 10.0),
           DropdownButton<String?>(
-            icon: Icon(Icons.format_list_bulleted_rounded),
-            items: <String?>['A-Z', 'Z-A']
-                .map((String? value) {
+            icon: const Icon(Icons.format_list_bulleted_rounded),
+            items: <String?>['A-Z', 'Z-A'].map((String? value) {
               return DropdownMenuItem<String?>(
                 value: value,
                 child: Text(value ?? ''),
@@ -94,15 +104,14 @@ class _JobPostingState extends State<JobPosting> {
   }
 
   Widget _buildCreateNewJobButton(BuildContext context) {
-    return ElevatedButton(
-      onPressed: () {
+    return PrimaryButton(
+      process: () {
         Navigator.push(
           context,
           MaterialPageRoute(builder: (context) => Description()),
         );
       },
-      child: Text('+ Create a New Job'),
+      title: '+ Create a New Job',
     );
   }
 }
-

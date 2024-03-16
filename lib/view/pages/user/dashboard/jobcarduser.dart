@@ -4,14 +4,13 @@ import 'package:firebase_auth/firebase_auth.dart';
 
 import 'jobdetailspageuser.dart';
 
-
-
 class JobCardUser extends StatelessWidget {
   final String? searchKeyword;
   final String? desiredLocation; // Add desiredLocation variable
   final String? sortBy;
 
-  JobCardUser({
+  const JobCardUser({
+    super.key,
     this.searchKeyword,
     this.desiredLocation,
     this.sortBy,
@@ -21,8 +20,7 @@ class JobCardUser extends StatelessWidget {
   Widget build(BuildContext context) {
     String? currentUserUid = FirebaseAuth.instance.currentUser?.uid;
 
-    Query query = FirebaseFirestore.instance.collection('Jobs')
-        .where('emp_uid', isEqualTo: currentUserUid);
+    Query query = FirebaseFirestore.instance.collection('Jobs');
 
     // Apply sorting if sortBy is not null
     if (sortBy != null) {
@@ -31,28 +29,29 @@ class JobCardUser extends StatelessWidget {
 
     return SingleChildScrollView(
       child: StreamBuilder(
-        stream: FirebaseFirestore.instance.collection('Jobs')
-            .where('emp_uid', isEqualTo: currentUserUid)
-            .where('emp_location', isEqualTo: desiredLocation) // Add this line for filtering by location
-            .snapshots(),
+        stream: query.snapshots(),
         builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return CircularProgressIndicator();
+            return const CircularProgressIndicator();
           } else if (snapshot.hasError) {
             return Text('Error fetching data: ${snapshot.error}');
           } else if (snapshot.data!.docs.isEmpty) {
-            return Text('No job data available.');
+            return const Text('No job data available.');
           } else {
-            return Container(
+            return SizedBox(
               height: MediaQuery.of(context).size.height * 0.8,
               child: ListView(
                 children: snapshot.data!.docs.map((DocumentSnapshot document) {
                   final jobData = document.data() as Map<String, dynamic>;
 
                   // Check if the job matches the search keyword
-                  if (searchKeyword != null && jobData['emp_category'] != null && !jobData['emp_category'].toLowerCase().contains(searchKeyword!.toLowerCase())) {
+                  if (searchKeyword != null &&
+                      jobData['emp_category'] != null &&
+                      !jobData['emp_category']
+                          .toLowerCase()
+                          .contains(searchKeyword!.toLowerCase())) {
                     // Skip this job if it doesn't match the search keyword
-                    return SizedBox.shrink();
+                    return const SizedBox.shrink();
                   }
 
                   return GestureDetector(
@@ -62,21 +61,26 @@ class JobCardUser extends StatelessWidget {
                       if (!viewedBy.contains(currentUserUid)) {
                         // If the user has not viewed this job before, update view count
                         viewedBy.add(currentUserUid);
-                        await FirebaseFirestore.instance.collection('Jobs')
+                        await FirebaseFirestore.instance
+                            .collection('Jobs')
                             .doc(document.id)
-                            .update({'viewed_by': viewedBy, 'view_count': FieldValue.increment(1)});
+                            .update({
+                          'viewed_by': viewedBy,
+                          'view_count': FieldValue.increment(1)
+                        });
                       }
 
                       //Navigate to job details page
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => JobDetailsPageuser(jobData: jobData,docid: document.id),
+                          builder: (context) => JobDetailsPageuser(
+                              jobData: jobData, docid: document.id),
                         ),
                       );
                     },
                     child: Card(
-                      margin: EdgeInsets.symmetric(vertical: 15.0),
+                      margin: const EdgeInsets.symmetric(vertical: 15.0),
                       child: ListTile(
                         leading: Container(
                           width: 50,
@@ -84,7 +88,8 @@ class JobCardUser extends StatelessWidget {
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(8),
                             image: DecorationImage(
-                              image: NetworkImage(jobData['emp_profile_img'] ?? ''),
+                              image: NetworkImage(
+                                  jobData['emp_profile_img'] ?? ''),
                               fit: BoxFit.cover,
                             ),
                           ),
@@ -94,20 +99,23 @@ class JobCardUser extends StatelessWidget {
                             Flexible(
                               child: Text(
                                 jobData['emp_category'] ?? '',
-                                style: TextStyle(fontWeight: FontWeight.bold),
+                                style: const TextStyle(
+                                    fontWeight: FontWeight.bold),
                                 overflow: TextOverflow.ellipsis,
                               ),
                             ),
-                            Spacer(),
+                            const Spacer(),
                             Visibility(
                               visible: jobData['view_count'] != null,
                               child: Row(
                                 children: [
-                                  Icon(Icons.remove_red_eye, color: Colors.black45, size: 16),
-                                  SizedBox(width: 4),
+                                  const Icon(Icons.remove_red_eye,
+                                      color: Colors.black45, size: 16),
+                                  const SizedBox(width: 4),
                                   Text(
                                     '${jobData['view_count']} ',
-                                    style: TextStyle(color: Colors.black45, fontSize: 12),
+                                    style: const TextStyle(
+                                        color: Colors.black45, fontSize: 12),
                                   ),
                                 ],
                               ),
@@ -128,34 +136,41 @@ class JobCardUser extends StatelessWidget {
                                 Flexible(
                                   child: Text(
                                     jobData['emp_location'] ?? '',
-                                    style: TextStyle(fontWeight: FontWeight.bold),
+                                    style: const TextStyle(
+                                        fontWeight: FontWeight.bold),
                                     overflow: TextOverflow.ellipsis,
                                   ),
                                 ),
                               ],
                             ),
-                            SizedBox(height: 20,),
+                            const SizedBox(
+                              height: 20,
+                            ),
                             Row(
                               children: [
                                 Container(
-                                  color: Colors.lightBlueAccent,
-                                  padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                                  color:
+                                      const Color.fromARGB(255, 189, 229, 247),
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 8, vertical: 4),
                                   child: Text(jobData['emp_workspace'] ?? ''),
                                 ),
-                                SizedBox(width: 12),
+                                const SizedBox(width: 12),
                                 Container(
-                                  color: Colors.lightBlueAccent,
-                                  padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                                  color:
+                                      const Color.fromARGB(255, 189, 229, 247),
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 8, vertical: 4),
                                   child: Text(jobData['emp_jobtype'] ?? ''),
                                 ),
-                                SizedBox(width: 8),
+                                const SizedBox(width: 8),
                                 Expanded(
                                   child: Container(
                                     child: Align(
                                       alignment: Alignment.topRight,
                                       child: Text(
                                         '\$${jobData['emp_min_Salary'] ?? ''}-${jobData['emp_max_Salary'] ?? ''} / Mo',
-                                        style: TextStyle(fontSize: 10),
+                                        style: const TextStyle(fontSize: 10),
                                       ),
                                     ),
                                   ),

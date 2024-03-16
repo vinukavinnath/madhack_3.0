@@ -23,10 +23,12 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -35,12 +37,12 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         fontFamily: "Poppins",
         colorScheme: ColorScheme.fromSeed(
-          seedColor: Colors.deepPurple,
+          seedColor: const Color(0xFF5696FA),
         ),
         useMaterial3: true,
       ),
       home: const SafeArea(
-        child: SplashScreen(),
+        child: HiddenDrawer(),
       ),
       // home: const SafeArea(
       //   child: VerifyAccount(),

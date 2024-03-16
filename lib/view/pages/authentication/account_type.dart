@@ -33,7 +33,10 @@ class _AccountTypeState extends State<AccountType> {
             children: <Widget>[
               Expanded(
                 flex: 3,
-                child: Image.asset('assets/logos/madhack.webp'),
+                child: Image.asset(
+                  'assets/logos/madhack.webp',
+                  width: 100,
+                ),
               ),
               Expanded(
                 flex: 5,

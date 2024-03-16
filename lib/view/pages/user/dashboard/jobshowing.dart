@@ -3,8 +3,9 @@ import 'package:flutter/material.dart';
 
 import 'jobcarduser.dart';
 
-
 class JobShowing extends StatefulWidget {
+  const JobShowing({super.key});
+
   @override
   _JobShowingState createState() => _JobShowingState();
 }
@@ -16,25 +17,35 @@ class _JobShowingState extends State<JobShowing> {
 
   @override
   Widget build(BuildContext context) {
-
-    return Scaffold(
-      appBar: AppBar(
-        leading: IconButton(
-          icon: Icon(Icons.menu),
-          onPressed: () => Navigator.pop(context),
-        ),
-      ),
-      body: SingleChildScrollView(
-        padding: EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: <Widget>[
-            _buildSearchBarWithFilter(),
-            SizedBox(height: 16.0), // Adjust as needed for spacing
-            SizedBox(height: 16.0), // Adjust as needed for spacing
-            JobCardUser(searchKeyword: searchKeyword, desiredLocation: desiredLocation), // Pass desiredLocation to JobCard
-            // Add other content here
-          ],
+    final double screenHeight = MediaQuery.of(context).size.height;
+    return SafeArea(
+      child: Scaffold(
+        body: Container(
+          height: screenHeight,
+          padding: const EdgeInsets.symmetric(horizontal: 12.0),
+          decoration: const BoxDecoration(
+            image: DecorationImage(
+                image: AssetImage(
+                  'assets/images/noise.webp',
+                ),
+                fit: BoxFit.fill),
+          ),
+          child: SingleChildScrollView(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: <Widget>[
+                _buildSearchBarWithFilter(),
+                const SizedBox(height: 16.0), // Adjust as needed for spacing
+                const SizedBox(height: 16.0), // Adjust as needed for spacing
+                JobCardUser(
+                    searchKeyword: searchKeyword,
+                    desiredLocation:
+                        desiredLocation), // Pass desiredLocation to JobCard
+                // Add other content here
+              ],
+            ),
+          ),
         ),
       ),
     );
@@ -42,7 +53,7 @@ class _JobShowingState extends State<JobShowing> {
 
   Widget _buildSearchBarWithFilter() {
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+      padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
       decoration: BoxDecoration(
         color: Colors.grey[200],
         borderRadius: BorderRadius.circular(8.0),
@@ -56,18 +67,17 @@ class _JobShowingState extends State<JobShowing> {
                   searchKeyword = value;
                 });
               },
-              decoration: InputDecoration(
+              decoration: const InputDecoration(
                 hintText: 'Search Jobs...',
                 border: InputBorder.none,
                 icon: Icon(Icons.search),
               ),
             ),
           ),
-          SizedBox(width: 10.0),
+          const SizedBox(width: 10.0),
           DropdownButton<String?>(
-            icon: Icon(Icons.format_list_bulleted_rounded),
-            items: <String?>['A-Z', 'Z-A']
-                .map((String? value) {
+            icon: const Icon(Icons.format_list_bulleted_rounded),
+            items: <String?>['A-Z', 'Z-A'].map((String? value) {
               return DropdownMenuItem<String?>(
                 value: value,
                 child: Text(value ?? ''),
@@ -84,4 +94,3 @@ class _JobShowingState extends State<JobShowing> {
     );
   }
 }
-

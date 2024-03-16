@@ -1,3 +1,5 @@
+import 'package:async_and_await/constants.dart';
+import 'package:async_and_await/view/widgets/primary_button.dart';
 import 'package:flutter/material.dart';
 import 'salary.dart';
 
@@ -70,64 +72,116 @@ class _LocationState extends State<Location> {
     'Kegalle/Sabaragamuwa Province',
   ];
 
-  List<String> filteredLocations = []; // Filtered location list based on search query
+  List<String> filteredLocations =
+      []; // Filtered location list based on search query
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        leading: IconButton(
-          icon: Icon(Icons.arrow_back),
-          onPressed: () {
-            Navigator.pop(context);
-          },
-        ),
-      ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(12.0),
-          child: Column(
+    final double screenHeight = MediaQuery.of(context).size.height;
+
+    return SafeArea(
+      child: Scaffold(
+        appBar: AppBar(
+          title: const Text(
+            'Location',
+            style: kHeading1TextStyle,
+          ),
+          centerTitle: true,
+          leading: IconButton(
+            icon: const Icon(
+              Icons.navigate_before,
+              color: kDeepBlueColor,
+            ),
+            onPressed: () {
+              Navigator.pop(context);
+            },
+          ),
+          flexibleSpace: Stack(
             children: [
-              Align(
-                alignment: Alignment.center,
-                child: const Text(
-                  'Location',
-                  style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                  ),
+              // Background Image
+              Positioned.fill(
+                child: Image.asset(
+                  'assets/images/noise.webp',
+                  fit: BoxFit.cover,
                 ),
               ),
-              const SizedBox(height: 10),
-              // Search Bar
-              TextField(
-                onChanged: (value) {
-                  setState(() {
-                    filteredLocations = allLocations
-                        .where((location) => location
-                        .toLowerCase()
-                        .contains(value.toLowerCase()))
-                        .toList();
-                  });
-                },
-                decoration: InputDecoration(
-                  hintText: 'Search location...',
-                  border: OutlineInputBorder(),
+            ],
+          ),
+        ),
+        body: Container(
+          height: screenHeight,
+          padding: const EdgeInsets.symmetric(horizontal: 24.0),
+          decoration: const BoxDecoration(
+            image: DecorationImage(
+                image: AssetImage(
+                  'assets/images/noise.webp',
                 ),
-              ),
-              const SizedBox(height: 20),
-              // Display filtered locations
-              ListView.builder(
-                shrinkWrap: true,
-                itemCount: filteredLocations.length,
-                itemBuilder: (context, index) {
-                  return ListTile(
-                    title: Text(filteredLocations[index]),
-                    onTap: () {
+                fit: BoxFit.fill),
+          ),
+          child: SingleChildScrollView(
+            child: Padding(
+              padding: const EdgeInsets.all(12.0),
+              child: Column(
+                children: [
+                  const SizedBox(height: 10),
+                  // Search Bar
+                  TextField(
+                    onChanged: (value) {
                       setState(() {
-                        selectedLocation = filteredLocations[index];
+                        filteredLocations = allLocations
+                            .where((location) => location
+                                .toLowerCase()
+                                .contains(value.toLowerCase()))
+                            .toList();
                       });
-                      // Navigate to Salary.dart page or perform any other action
+                    },
+                    decoration: InputDecoration(
+                      hintText: 'Search location...',
+                      border: OutlineInputBorder(),
+                    ),
+                  ),
+                  const SizedBox(height: 20),
+                  // Display filtered locations
+                  ListView.builder(
+                    shrinkWrap: true,
+                    itemCount: filteredLocations.length,
+                    itemBuilder: (context, index) {
+                      return ListTile(
+                        title: Text(filteredLocations[index]),
+                        onTap: () {
+                          setState(() {
+                            selectedLocation = filteredLocations[index];
+                          });
+                          // Navigate to Salary.dart page or perform any other action
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => Salary(
+                                docId: widget.docId,
+                                industry: widget.industry,
+                                category: widget.category,
+                                jobposition: widget.jobposition,
+                                jobtype: widget.jobtype,
+                                workspace: widget.workspace,
+                                minSalary: widget.minSalary,
+                                maxSalary: widget.maxSalary,
+                                aboutcomp: widget.aboutcomp,
+                                resposibilities: widget.resposibilities,
+                                requirements: widget.requirements,
+                                jobdes: widget.jobdes,
+                                compname: widget.compname,
+                                selectedLocation: selectedLocation,
+                              ),
+                            ),
+                          );
+                        },
+                      );
+                    },
+                  ),
+                  SizedBox(height: 20),
+                  PrimaryButton(
+                    process: () {
+                      // Navigate to Salary.dart page
                       Navigator.push(
                         context,
                         MaterialPageRoute(
@@ -150,38 +204,11 @@ class _LocationState extends State<Location> {
                         ),
                       );
                     },
-                  );
-                },
+                    title:'Next',
+                  ),
+                ],
               ),
-              SizedBox(height: 20),
-              ElevatedButton(
-                onPressed: () {
-                  // Navigate to Salary.dart page
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => Salary(
-                        docId: widget.docId,
-                        industry: widget.industry,
-                        category: widget.category,
-                        jobposition: widget.jobposition,
-                        jobtype: widget.jobtype,
-                        workspace: widget.workspace,
-                        minSalary: widget.minSalary,
-                        maxSalary: widget.maxSalary,
-                        aboutcomp: widget.aboutcomp,
-                        resposibilities: widget.resposibilities,
-                        requirements: widget.requirements,
-                        jobdes: widget.jobdes,
-                        compname: widget.compname,
-                        selectedLocation:selectedLocation,
-                      ),
-                    ),
-                  );
-                },
-                child: Text('Next'),
-              ),
-            ],
+            ),
           ),
         ),
       ),

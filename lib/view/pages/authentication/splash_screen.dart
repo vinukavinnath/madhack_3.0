@@ -21,10 +21,17 @@ class SplashScreen extends StatelessWidget {
     return const SafeArea(
       child:  Scaffold(
         backgroundColor: kWhiteColor,
-        body: Center(
-          child: Image(
-            image: AssetImage("assets/logos/madhack.webp"),
-          ),
+        body: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Padding(
+              padding: EdgeInsets.all(24.0),
+              child: Image(
+                image: AssetImage("assets/logos/madhack.webp"),
+              ),
+            ),
+            Text('JobConnect',style: kHeading1TextStyle,),
+          ],
         ),
       ),
     );

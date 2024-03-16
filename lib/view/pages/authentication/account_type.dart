@@ -1,5 +1,6 @@
 import 'package:async_and_await/view/pages/employer/jobposting.dart';
 import 'package:async_and_await/view/pages/user_profile_creation/aboutpage1.dart';
+import 'package:async_and_await/view/widgets/hidden_drawer_employer.dart';
 import 'package:flutter/material.dart';
 import 'package:async_and_await/constants.dart';
 
@@ -163,7 +164,7 @@ class _AccountTypeState extends State<AccountType> {
                                       isHire = true;
                                       Navigator.of(context).pushReplacement(
                                         MaterialPageRoute(
-                                          builder: (context) => JobPosting(),
+                                          builder: (context) => HiddenDrawerEmployer(),
                                         ),
                                       );
                                     });

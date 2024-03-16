@@ -1,3 +1,4 @@
+import 'package:async_and_await/view/widgets/primary_button.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'description.dart';
@@ -15,35 +16,45 @@ class _JobPostingState extends State<JobPosting> {
 
   @override
   Widget build(BuildContext context) {
+    final double screenHeight = MediaQuery.of(context).size.height;
 
-    return Scaffold(
-      appBar: AppBar(
-        leading: IconButton(
-          icon: Icon(Icons.menu),
-          onPressed: () => Navigator.pop(context),
-        ),
-      ),
-      body: SingleChildScrollView(
-        padding: EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: <Widget>[
-            _buildSearchBarWithFilter(),
-            SizedBox(height: 16.0), // Adjust as needed for spacing
-            _buildCreateNewJobButton(context),
-            SizedBox(height: 16.0), // Adjust as needed for spacing
-            Text(
-              'Recently Created',
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 16.0,
-              ),
+    return SafeArea(
+      child: Scaffold(
+        body: Container(
+          height: screenHeight,
+          padding: const EdgeInsets.symmetric(horizontal: 24.0),
+          decoration: const BoxDecoration(
+            image: DecorationImage(
+                image: AssetImage(
+                  'assets/images/noise.webp',
+                ),
+                fit: BoxFit.fill),
+          ),
+          child: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: <Widget>[
+                _buildSearchBarWithFilter(),
+                SizedBox(height: 16.0), // Adjust as needed for spacing
+                _buildCreateNewJobButton(context),
+                SizedBox(height: 16.0), // Adjust as needed for spacing
+                Text(
+                  'Recently Created',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 16.0,
+                  ),
+                ),
+                SizedBox(height: 16.0), // Adjust as needed for spacing
+                JobCard(
+                    searchKeyword: searchKeyword,
+                    desiredLocation:
+                        desiredLocation), // Pass desiredLocation to JobCard
+                // Add other content here
+              ],
             ),
-            SizedBox(height: 16.0), // Adjust as needed for spacing
-            JobCard(searchKeyword: searchKeyword, desiredLocation: desiredLocation), // Pass desiredLocation to JobCard
-            // Add other content here
-          ],
+          ),
         ),
       ),
     );
@@ -51,7 +62,7 @@ class _JobPostingState extends State<JobPosting> {
 
   Widget _buildSearchBarWithFilter() {
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+      padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
       decoration: BoxDecoration(
         color: Colors.grey[200],
         borderRadius: BorderRadius.circular(8.0),
@@ -75,8 +86,7 @@ class _JobPostingState extends State<JobPosting> {
           SizedBox(width: 10.0),
           DropdownButton<String?>(
             icon: Icon(Icons.format_list_bulleted_rounded),
-            items: <String?>['A-Z', 'Z-A']
-                .map((String? value) {
+            items: <String?>['A-Z', 'Z-A'].map((String? value) {
               return DropdownMenuItem<String?>(
                 value: value,
                 child: Text(value ?? ''),
@@ -94,15 +104,14 @@ class _JobPostingState extends State<JobPosting> {
   }
 
   Widget _buildCreateNewJobButton(BuildContext context) {
-    return ElevatedButton(
-      onPressed: () {
+    return PrimaryButton(
+      process: () {
         Navigator.push(
           context,
           MaterialPageRoute(builder: (context) => Description()),
         );
       },
-      child: Text('+ Create a New Job'),
+      title: '+ Create a New Job',
     );
   }
 }
-

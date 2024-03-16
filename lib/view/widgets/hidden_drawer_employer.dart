@@ -49,7 +49,7 @@ class _HiddenDrawerEmployerState extends State<HiddenDrawerEmployer> {
       ),
       ScreenHiddenDrawer(
         ItemHiddenMenu(
-            name: 'Invite Friends',
+            name: 'Share',
             baseStyle: selectedTextStyle,
             selectedStyle: kHeading1TextStyle),
         const InviteFriends(),

@@ -39,7 +39,7 @@ class JobCard extends StatelessWidget {
           } else if (snapshot.hasError) {
             return Text('Error fetching data: ${snapshot.error}');
           } else if (snapshot.data!.docs.isEmpty) {
-            return Text('No job data available.');
+            return Center(child: Text('No job data available.'));
           } else {
             return Container(
               height: MediaQuery.of(context).size.height * 0.8,

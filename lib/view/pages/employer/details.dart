@@ -1,3 +1,7 @@
+import 'package:async_and_await/constants.dart';
+import 'package:async_and_await/view/widgets/hidden_drawer_employer.dart';
+import 'package:async_and_await/view/widgets/primary_button.dart';
+import 'package:async_and_await/view/widgets/secondary_button.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
@@ -54,23 +58,59 @@ class _DetailsState extends State<Details> {
   Future<void> _uploadImage(String imagePath) async {
     // Add your code to upload the image to Firebase Storage
     // Here is a simple example of uploading an image using FirebaseStorage:
-     File imageFile = File(imagePath);
-     String imageName = DateTime.now().millisecondsSinceEpoch.toString() + '.jpg';
-     Reference storageReference = FirebaseStorage.instance.ref().child('profile_images/$imageName');
-     UploadTask uploadTask = storageReference.putFile(imageFile);
-     await uploadTask.whenComplete(() async {
+    File imageFile = File(imagePath);
+    String imageName =
+        DateTime.now().millisecondsSinceEpoch.toString() + '.jpg';
+    Reference storageReference =
+        FirebaseStorage.instance.ref().child('profile_images/$imageName');
+    UploadTask uploadTask = storageReference.putFile(imageFile);
+    await uploadTask.whenComplete(() async {
       imageUrl = await storageReference.getDownloadURL();
-     });
+    });
   }
 
   @override
   Widget build(BuildContext context) {
+    final double screenHeight = MediaQuery.of(context).size.height;
+
     return Scaffold(
       appBar: AppBar(
-        title: Text('Description'),
+        title: const Text(
+          'Description',
+          style: kHeading1TextStyle,
+        ),
+        centerTitle: true,
+        leading: IconButton(
+          icon: const Icon(
+            Icons.navigate_before,
+            color: kDeepBlueColor,
+          ),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
+        flexibleSpace: Stack(
+          children: [
+            // Background Image
+            Positioned.fill(
+              child: Image.asset(
+                'assets/images/noise.webp',
+                fit: BoxFit.cover,
+              ),
+            ),
+          ],
+        ),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(12.0),
+      body: Container(
+        height: screenHeight,
+        padding: const EdgeInsets.symmetric(horizontal: 24.0),
+        decoration: const BoxDecoration(
+          image: DecorationImage(
+              image: AssetImage(
+                'assets/images/noise.webp',
+              ),
+              fit: BoxFit.fill),
+        ),
         child: SingleChildScrollView(
           child: Column(
             children: <Widget>[
@@ -79,9 +119,9 @@ class _DetailsState extends State<Details> {
                   ? Image.network(imageUrl!)
                   : SizedBox(), // Display uploaded image if available
               SizedBox(height: 10),
-              ElevatedButton(
-                onPressed: _pickImageFromGallery,
-                child: Text('Select Profile Image from Gallery'),
+              SecondaryButton(
+                process: _pickImageFromGallery,
+                title: 'Select Profile Image',
               ),
               SizedBox(height: 10),
               TextFormField(
@@ -119,8 +159,8 @@ class _DetailsState extends State<Details> {
                 ),
               ),
               SizedBox(height: 40),
-              ElevatedButton(
-                onPressed: () async {
+              PrimaryButton(
+                process: () async {
                   String docId = widget.docId;
                   String jobImageUrl = imageUrl ?? '';
 
@@ -145,11 +185,11 @@ class _DetailsState extends State<Details> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => JobPosting(),
+                      builder: (context) => const HiddenDrawerEmployer(),
                     ),
                   );
                 },
-                child: Text('Post Job'),
+                title: 'Post Job',
               ),
             ],
           ),

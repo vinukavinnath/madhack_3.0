@@ -1,3 +1,5 @@
+import 'package:async_and_await/constants.dart';
+import 'package:async_and_await/view/widgets/primary_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_xlider/flutter_xlider.dart';
 import 'databaseconnectionemp.dart';
@@ -65,75 +67,112 @@ class _SalaryState extends State<Salary> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Salary'),
-      ),
-      body: SingleChildScrollView(
-        padding: EdgeInsets.all(16.0),
-        child: Column(
-          children: [
-            FlutterSlider(
-              values: [minSalary, maxSalary],
-              rangeSlider: true,
-              min: 10,
-              max: 3000,
-              onDragging: (handlerIndex, lowerValue, upperValue) {
-                setState(() {
-                  minSalary = lowerValue;
-                  maxSalary = upperValue;
-                  minSalaryController.text = minSalary.toStringAsFixed(2);
-                  maxSalaryController.text = maxSalary.toStringAsFixed(2);
-                });
-              },
-              tooltip: FlutterSliderTooltip(disabled: true),
-            ),
-            SizedBox(height: 20),
-            TextField(
-              controller: minSalaryController,
-              readOnly: true,
-              decoration: InputDecoration(
-                labelText: 'Min Salary ',
-              ),
-            ),
-            SizedBox(height: 10),
-            TextField(
-              controller: maxSalaryController,
-              readOnly: true,
-              decoration: InputDecoration(
-                labelText: 'Max Salary',
-              ),
-            ),
-            // Button to navigate to the next page
-            SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: () {
-                String minSalaryValue = minSalaryController.text;
-                String maxSalaryValue = maxSalaryController.text;
+    final double screenHeight = MediaQuery.of(context).size.height;
 
-                // Navigate to the details page and pass the data
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => Details(
-                      docId: widget.docId,
-                      industry: widget.industry,
-                      category: widget.category,
-                      jobposition: widget.jobposition,
-                      jobtype: widget.jobtype,
-                      workspace: widget.workspace,
-                      selectedLocation: widget.selectedLocation,
-                      minSalary: minSalaryValue,
-                      maxSalary: maxSalaryValue,
-
-                    ),
+    return SafeArea(
+      child: Scaffold(
+        appBar: AppBar(
+          title: const Text(
+            'Salary',
+            style: kHeading1TextStyle,
+          ),
+          centerTitle: true,
+          leading: IconButton(
+            icon: const Icon(
+              Icons.navigate_before,
+              color: kDeepBlueColor,
+            ),
+            onPressed: () {
+              Navigator.pop(context);
+            },
+          ),
+          flexibleSpace: Stack(
+            children: [
+              // Background Image
+              Positioned.fill(
+                child: Image.asset(
+                  'assets/images/noise.webp',
+                  fit: BoxFit.cover,
+                ),
+              ),
+            ],
+          ),
+        ),
+        body: Container(
+          height: screenHeight,
+          padding: const EdgeInsets.symmetric(horizontal: 24.0),
+          decoration: const BoxDecoration(
+            image: DecorationImage(
+                image: AssetImage(
+                  'assets/images/noise.webp',
+                ),
+                fit: BoxFit.fill),
+          ),
+          child: SingleChildScrollView(
+            padding: EdgeInsets.all(16.0),
+            child: Column(
+              children: [
+                FlutterSlider(
+                  values: [minSalary, maxSalary],
+                  rangeSlider: true,
+                  min: 10,
+                  max: 3000,
+                  onDragging: (handlerIndex, lowerValue, upperValue) {
+                    setState(() {
+                      minSalary = lowerValue;
+                      maxSalary = upperValue;
+                      minSalaryController.text = minSalary.toStringAsFixed(2);
+                      maxSalaryController.text = maxSalary.toStringAsFixed(2);
+                    });
+                  },
+                  tooltip: FlutterSliderTooltip(disabled: true),
+                ),
+                SizedBox(height: 20),
+                TextField(
+                  controller: minSalaryController,
+                  readOnly: true,
+                  decoration: InputDecoration(
+                    labelText: 'Min Salary ',
                   ),
-                );
-              },
-              child: Text('Next'),
-            ),
+                ),
+                SizedBox(height: 10),
+                TextField(
+                  controller: maxSalaryController,
+                  readOnly: true,
+                  decoration: InputDecoration(
+                    labelText: 'Max Salary',
+                  ),
+                ),
+                // Button to navigate to the next page
+                SizedBox(height: 20),
+                PrimaryButton(
+                  process: () {
+                    String minSalaryValue = minSalaryController.text;
+                    String maxSalaryValue = maxSalaryController.text;
 
-          ],
+                    // Navigate to the details page and pass the data
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => Details(
+                          docId: widget.docId,
+                          industry: widget.industry,
+                          category: widget.category,
+                          jobposition: widget.jobposition,
+                          jobtype: widget.jobtype,
+                          workspace: widget.workspace,
+                          selectedLocation: widget.selectedLocation,
+                          minSalary: minSalaryValue,
+                          maxSalary: maxSalaryValue,
+                        ),
+                      ),
+                    );
+                  },
+                  title: 'Next',
+                ),
+              ],
+            ),
+          ),
         ),
       ),
     );

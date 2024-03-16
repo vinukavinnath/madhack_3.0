@@ -1,3 +1,5 @@
+import 'package:async_and_await/constants.dart';
+import 'package:async_and_await/view/widgets/primary_button.dart';
 import 'package:flutter/material.dart';
 import 'Location.dart';
 import 'databaseconnectionemp.dart';
@@ -127,150 +129,185 @@ class _DescriptionState extends State<Description> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Description'),
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(12.0),
-        child: SingleChildScrollView(
-          child: Column(
-            children: <Widget>[
-              DropdownButtonFormField<String>(
-                value: selectedIndustry,
-                items: industries.map((String value) {
-                  return DropdownMenuItem<String>(
-                    value: value,
-                    child: SizedBox(
-                      width: 200, // Adjust width as needed
-                      child: Text(value),
-                    ),
-                  );
-                }).toList(),
-                onChanged: (String? value) {
-                  setState(() {
-                    selectedIndustry = value!;
-                    selectedCategory = categoryMap[selectedIndustry]![0];
-                  });
-                },
-                decoration: InputDecoration(
-                  labelText: 'Industry',
+    final double screenHeight=MediaQuery.of(context).size.height;
+    return SafeArea(
+      child: Scaffold(
+        appBar:AppBar(
+          title: const Text(
+            'Description',
+            style: kHeading1TextStyle,
+          ),
+          centerTitle: true,
+          leading: IconButton(
+            icon: const Icon(
+              Icons.navigate_before,
+              color: kDeepBlueColor,
+            ),
+            onPressed: () {
+              Navigator.pop(context);
+            },
+          ),
+          flexibleSpace: Stack(
+            children: [
+              // Background Image
+              Positioned.fill(
+                child: Image.asset(
+                  'assets/images/noise.webp',
+                  fit: BoxFit.cover,
                 ),
-              ),
-
-              SizedBox(height: 10),
-              DropdownButtonFormField<String>(
-                value: selectedCategory,
-                items: categoryMap[selectedIndustry]!.map((String value) {
-                  return DropdownMenuItem<String>(
-                    value: value,
-                    child: Text(value),
-                  );
-                }).toList(),
-                onChanged: (String? value) {
-                  setState(() {
-                    selectedCategory = value!;
-                  });
-                },
-                decoration: InputDecoration(
-                  labelText: 'Category',
-                ),
-              ),
-              SizedBox(height: 10),
-              TextFormField(
-                controller: jobpositionController,
-                decoration: InputDecoration(
-                  labelText: 'Job Position',
-                ),
-              ),
-              SizedBox(height: 10),
-              DropdownButtonFormField<String>(
-                value: selectedJobType,
-                items: jobTypes.map((String value) {
-                  return DropdownMenuItem<String>(
-                    value: value,
-                    child: Text(value),
-                  );
-                }).toList(),
-                onChanged: (String? value) {
-                  setState(() {
-                    selectedJobType = value!;
-                    selectedWorkspace = workspaceMap[selectedJobType]![0];
-                  });
-                },
-                decoration: InputDecoration(
-                  labelText: 'Job Type',
-                ),
-              ),
-              SizedBox(height: 10),
-              DropdownButtonFormField<String>(
-                value: selectedWorkspace,
-                items: workspaceMap[selectedJobType]!.map((String value) {
-                  return DropdownMenuItem<String>(
-                    value: value,
-                    child: Text(value),
-                  );
-                }).toList(),
-                onChanged: (String? value) {
-                  setState(() {
-                    selectedWorkspace = value!;
-                  });
-                },
-                decoration: InputDecoration(
-                  labelText: 'Workspace',
-                ),
-              ),
-              SizedBox(height: 40),
-              ElevatedButton(
-                onPressed: () async {
-                  String docId = UniqueKey().toString();
-                  String minSalary = minSalaryController.text;
-                  String maxSalary = maxSalaryController.text;
-
-                  FirebaseOperations.addDataToFirebase(
-                    context,
-                    docId,
-                    selectedIndustry,
-                    selectedCategory,
-                    jobpositionController.text,
-                    selectedJobType,
-                    selectedWorkspace,
-                    minSalary,
-                    maxSalary,
-                    jobDescriptionController.text,
-                    requirementsController.text,
-                    responsibilitiesController.text,
-                    aboutCompanyController.text,
-                    companynameController.text,
-                    companyProfileImageController.text,
-                    selectedLocation,
-                  );
-
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => Location(
-                        docId: docId,
-                        industry: selectedIndustry,
-                        category: selectedCategory,
-                        jobposition: jobpositionController.text,
-                        jobtype: selectedJobType,
-                        workspace: selectedWorkspace,
-                        minSalary: minSalary,
-                        maxSalary: maxSalary,
-                        jobdes: jobDescriptionController.text,
-                        requirements: requirementsController.text,
-                        resposibilities: responsibilitiesController.text,
-                        aboutcomp: aboutCompanyController.text,
-                        compname: companynameController.text,
-                        compprofileimage: companyProfileImageController.text,
-                      ),
-                    ),
-                  );
-                },
-                child: Text('Next'),
               ),
             ],
+          ),
+        ),
+        body: Container(
+          height: screenHeight,
+          padding: const EdgeInsets.symmetric(horizontal: 24.0),
+          decoration: const BoxDecoration(
+            image: DecorationImage(
+                image: AssetImage(
+                  'assets/images/noise.webp',
+                ),
+                fit: BoxFit.fill),
+          ),
+          child: SingleChildScrollView(
+            child: Column(
+              children: <Widget>[
+                DropdownButtonFormField<String>(
+                  value: selectedIndustry,
+                  items: industries.map((String value) {
+                    return DropdownMenuItem<String>(
+                      value: value,
+                      child: SizedBox(
+                        width: 200, // Adjust width as needed
+                        child: Text(value),
+                      ),
+                    );
+                  }).toList(),
+                  onChanged: (String? value) {
+                    setState(() {
+                      selectedIndustry = value!;
+                      selectedCategory = categoryMap[selectedIndustry]![0];
+                    });
+                  },
+                  decoration: InputDecoration(
+                    labelText: 'Industry',
+                  ),
+                ),
+      
+                SizedBox(height: 10),
+                DropdownButtonFormField<String>(
+                  value: selectedCategory,
+                  items: categoryMap[selectedIndustry]!.map((String value) {
+                    return DropdownMenuItem<String>(
+                      value: value,
+                      child: Text(value),
+                    );
+                  }).toList(),
+                  onChanged: (String? value) {
+                    setState(() {
+                      selectedCategory = value!;
+                    });
+                  },
+                  decoration: InputDecoration(
+                    labelText: 'Category',
+                  ),
+                ),
+                SizedBox(height: 10),
+                TextFormField(
+                  controller: jobpositionController,
+                  decoration: InputDecoration(
+                    labelText: 'Job Position',
+                  ),
+                ),
+                SizedBox(height: 10),
+                DropdownButtonFormField<String>(
+                  value: selectedJobType,
+                  items: jobTypes.map((String value) {
+                    return DropdownMenuItem<String>(
+                      value: value,
+                      child: Text(value),
+                    );
+                  }).toList(),
+                  onChanged: (String? value) {
+                    setState(() {
+                      selectedJobType = value!;
+                      selectedWorkspace = workspaceMap[selectedJobType]![0];
+                    });
+                  },
+                  decoration: InputDecoration(
+                    labelText: 'Job Type',
+                  ),
+                ),
+                SizedBox(height: 10),
+                DropdownButtonFormField<String>(
+                  value: selectedWorkspace,
+                  items: workspaceMap[selectedJobType]!.map((String value) {
+                    return DropdownMenuItem<String>(
+                      value: value,
+                      child: Text(value),
+                    );
+                  }).toList(),
+                  onChanged: (String? value) {
+                    setState(() {
+                      selectedWorkspace = value!;
+                    });
+                  },
+                  decoration: InputDecoration(
+                    labelText: 'Workspace',
+                  ),
+                ),
+                SizedBox(height: 40),
+                PrimaryButton(
+                  process: () async {
+                    String docId = UniqueKey().toString();
+                    String minSalary = minSalaryController.text;
+                    String maxSalary = maxSalaryController.text;
+      
+                    FirebaseOperations.addDataToFirebase(
+                      context,
+                      docId,
+                      selectedIndustry,
+                      selectedCategory,
+                      jobpositionController.text,
+                      selectedJobType,
+                      selectedWorkspace,
+                      minSalary,
+                      maxSalary,
+                      jobDescriptionController.text,
+                      requirementsController.text,
+                      responsibilitiesController.text,
+                      aboutCompanyController.text,
+                      companynameController.text,
+                      companyProfileImageController.text,
+                      selectedLocation,
+                    );
+      
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => Location(
+                          docId: docId,
+                          industry: selectedIndustry,
+                          category: selectedCategory,
+                          jobposition: jobpositionController.text,
+                          jobtype: selectedJobType,
+                          workspace: selectedWorkspace,
+                          minSalary: minSalary,
+                          maxSalary: maxSalary,
+                          jobdes: jobDescriptionController.text,
+                          requirements: requirementsController.text,
+                          resposibilities: responsibilitiesController.text,
+                          aboutcomp: aboutCompanyController.text,
+                          compname: companynameController.text,
+                          compprofileimage: companyProfileImageController.text,
+                        ),
+                      ),
+                    );
+                  },
+                  title: 'Next',
+                ),
+              ],
+            ),
           ),
         ),
       ),

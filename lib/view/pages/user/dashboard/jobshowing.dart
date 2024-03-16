@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 
 import 'jobcarduser.dart';
 
-
 class JobShowing extends StatefulWidget {
   @override
   _JobShowingState createState() => _JobShowingState();
@@ -16,7 +15,6 @@ class _JobShowingState extends State<JobShowing> {
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
@@ -32,7 +30,10 @@ class _JobShowingState extends State<JobShowing> {
             _buildSearchBarWithFilter(),
             SizedBox(height: 16.0), // Adjust as needed for spacing
             SizedBox(height: 16.0), // Adjust as needed for spacing
-            JobCardUser(searchKeyword: searchKeyword, desiredLocation: desiredLocation), // Pass desiredLocation to JobCard
+            JobCardUser(
+                searchKeyword: searchKeyword,
+                desiredLocation:
+                    desiredLocation), // Pass desiredLocation to JobCard
             // Add other content here
           ],
         ),
@@ -66,8 +67,7 @@ class _JobShowingState extends State<JobShowing> {
           SizedBox(width: 10.0),
           DropdownButton<String?>(
             icon: Icon(Icons.format_list_bulleted_rounded),
-            items: <String?>['A-Z', 'Z-A']
-                .map((String? value) {
+            items: <String?>['A-Z', 'Z-A'].map((String? value) {
               return DropdownMenuItem<String?>(
                 value: value,
                 child: Text(value ?? ''),
@@ -84,4 +84,3 @@ class _JobShowingState extends State<JobShowing> {
     );
   }
 }
-

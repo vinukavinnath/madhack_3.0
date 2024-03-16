@@ -3,6 +3,7 @@ import 'package:async_and_await/view/pages/about_us.dart';
 import 'package:async_and_await/view/pages/help_support.dart';
 import 'package:async_and_await/view/pages/home_page_applicant.dart';
 import 'package:async_and_await/view/pages/invite_friends.dart';
+import 'package:async_and_await/view/pages/user/dashboard/jobshowing.dart';
 import 'package:flutter/material.dart';
 import 'package:hidden_drawer_menu/hidden_drawer_menu.dart';
 
@@ -30,7 +31,7 @@ class _HiddenDrawerState extends State<HiddenDrawer> {
             name: 'Home',
             baseStyle: selectedTextStyle,
             selectedStyle: kHeading1TextStyle),
-        const HomePageApplicant(),
+         JobShowing(),
       ),
       ScreenHiddenDrawer(
         ItemHiddenMenu(
@@ -65,6 +66,7 @@ class _HiddenDrawerState extends State<HiddenDrawer> {
       initPositionSelected: 0,
       slidePercent: 50,
       isDraggable: true,
+      actionsAppBar: [IconButton(onPressed: (){}, icon: Icon(Icons.logout))],
     );
   }
 }

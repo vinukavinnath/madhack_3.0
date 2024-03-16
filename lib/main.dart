@@ -1,4 +1,5 @@
 import 'package:async_and_await/controller/root_page.dart';
+import 'package:async_and_await/screens/user/dashboard/aboutme.dart';
 import 'package:async_and_await/view/pages/authentication/splash_screen.dart';
 import 'package:async_and_await/view/pages/user/dashboard.dart';
 import 'package:flutter/material.dart';
@@ -35,7 +36,7 @@ class MyApp extends StatelessWidget {
         ),
         useMaterial3: true,
       ),
-      home: const SafeArea(child: AboutPage1()),
+      home:  SafeArea(child: AboutMe()),
       // home: const SafeArea(
       //   child: VerifyAccount(),
       // ),

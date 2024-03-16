@@ -1,3 +1,4 @@
+import 'package:async_and_await/view/pages/user_profile_creation/aboutpage1.dart';
 import 'package:flutter/material.dart';
 import 'package:async_and_await/constants.dart';
 
@@ -80,16 +81,16 @@ class _AccountTypeState extends State<AccountType> {
                                 ),
                                 GestureDetector(
                                   onTap: () {
-                                    // setState(() {
-                                    //   isWork = true;
-                                    //   isHire = false;
-                                    //   Navigator.of(context).pushReplacement(
-                                    //     MaterialPageRoute(
-                                    //       builder: (context) =>
-                                    //       const ProfileFreelancer(),
-                                    //     ),
-                                    //   );
-                                    // });
+                                    setState(() {
+                                      isWork = true;
+                                      isHire = false;
+                                      Navigator.of(context).pushReplacement(
+                                        MaterialPageRoute(
+                                          builder: (context) =>
+                                          const AboutPage1(),
+                                        ),
+                                      );
+                                    });
                                   },
                                   child: Container(
                                     margin: const EdgeInsets.symmetric(

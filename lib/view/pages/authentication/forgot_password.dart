@@ -1,3 +1,4 @@
+import 'package:async_and_await/view/pages/authentication/sign_in_page.dart';
 import 'package:async_and_await/view/widgets/custom_snack_bar.dart';
 import 'package:async_and_await/view/widgets/primary_button.dart';
 import 'package:async_and_await/view/widgets/secondary_button.dart';
@@ -6,7 +7,6 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:external_app_launcher/external_app_launcher.dart';
 import 'package:async_and_await/constants.dart';
-import 'package:go_router/go_router.dart';
 
 class ForgotPassword extends StatefulWidget {
   const ForgotPassword({super.key});
@@ -67,7 +67,10 @@ class _ForgotPasswordState extends State<ForgotPassword> {
             SecondaryButton(
               title: 'Login Now',
               process: () {
-                context.go('/sign_in');
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const SignInPage()));
               },
             ),
           ],
@@ -190,7 +193,10 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                 SecondaryButton(
                     title: 'Cancel',
                     process: () {
-                      context.go('/sign_in');
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const SignInPage()));
                     }),
                 const SizedBox(
                   height: 50.0,

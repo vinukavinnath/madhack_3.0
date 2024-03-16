@@ -7,13 +7,13 @@ class HomePageApplicant extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-      body: Column(
-        children: [
-          Center(
-            child: Text('Home Page'),
+    return const SafeArea(
+      child: Scaffold(
+        body: Center(
+          child: Center(
+            child: Text('Home Page Applicant'),
           ),
-        ],
+        ),
       ),
     );
   }

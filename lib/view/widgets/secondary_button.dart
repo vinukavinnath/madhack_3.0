@@ -13,9 +13,9 @@ class SecondaryButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final double screenWidth = MediaQuery.of(context).size.width;
+    final double buttonWidth = MediaQuery.of(context).size.width;
     return Container(
-      width: screenWidth,
+      width: buttonWidth,
       margin: const EdgeInsets.symmetric(horizontal: 28.0, vertical: 8.0),
       child: ElevatedButton(
         onPressed: process,

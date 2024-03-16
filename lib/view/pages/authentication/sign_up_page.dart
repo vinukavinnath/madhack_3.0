@@ -1,10 +1,11 @@
+import 'package:async_and_await/view/pages/authentication/sign_in_page.dart';
+import 'package:async_and_await/view/pages/authentication/verify_account.dart';
 import 'package:async_and_await/view/widgets/custom_snack_bar.dart';
 import 'package:async_and_await/view/widgets/primary_button.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:async_and_await/constants.dart';
-import 'package:go_router/go_router.dart';
 
 class SignUpPage extends StatefulWidget {
   const SignUpPage({super.key});
@@ -35,7 +36,7 @@ class _SignUpPageState extends State<SignUpPage> {
   void createMyAccount() async {
     final String enteredEmail = email.text.trim();
     final String enteredPassword = password.text.trim();
-    final String confirmedPassword= confirmPasswordController.text.trim();
+    final String confirmedPassword = confirmPasswordController.text.trim();
     try {
       if (enteredPassword == confirmedPassword) {
         await FirebaseAuth.instance.createUserWithEmailAndPassword(
@@ -106,7 +107,8 @@ class _SignUpPageState extends State<SignUpPage> {
 
       if (user != null && !user.emailVerified) {
         await user.sendEmailVerification();
-        context.go('/verify_account');
+        Navigator.pushReplacement(context,
+            MaterialPageRoute(builder: (context) => const VerifyAccount()));
       }
     } catch (e) {
       //Ignored catch block
@@ -374,7 +376,10 @@ class _SignUpPageState extends State<SignUpPage> {
                         const Text('Already registered?'),
                         TextButton(
                           onPressed: () {
-                            context.go('/sign_in');
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => const SignInPage()));
                           },
                           child: const Text(
                             'Log In',

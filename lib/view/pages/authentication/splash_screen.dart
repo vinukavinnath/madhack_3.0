@@ -1,8 +1,8 @@
 import 'dart:async';
 
 import 'package:async_and_await/constants.dart';
+import 'package:async_and_await/controller/root_page.dart';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 
 class SplashScreen extends StatelessWidget {
   const SplashScreen({super.key});
@@ -12,7 +12,10 @@ class SplashScreen extends StatelessWidget {
 
     //Timing Property
     Timer(const Duration(seconds: 3), () {
-      context.go('/root');
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => const RootPage()));
     });
 
     return const SafeArea(

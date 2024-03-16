@@ -1,8 +1,11 @@
+import 'package:async_and_await/view/pages/authentication/forgot_password.dart';
+import 'package:async_and_await/view/pages/authentication/sign_up_page.dart';
+import 'package:async_and_await/view/pages/home_page_applicant.dart';
+import 'package:async_and_await/view/pages/home_page_employer.dart';
 import 'package:async_and_await/view/widgets/custom_snack_bar.dart';
 import 'package:async_and_await/view/widgets/loading_screen.dart';
 import 'package:async_and_await/view/widgets/primary_button.dart';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import 'package:toggle_switch/toggle_switch.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -45,8 +48,14 @@ class _SignInPageState extends State<SignInPage> {
 
       if (context.mounted) {
         (currentUserRole == 0)
-            ? context.go('/home_applicant')
-            : context.go('/home_employer');
+            ? Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => const HomePageApplicant()))
+            : Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => const HomePageEmployer()));
       }
     } on FirebaseAuthException catch (e) {
       if (e.code == 'invalid-mail') {
@@ -304,7 +313,11 @@ class _SignInPageState extends State<SignInPage> {
                                           }),
                                       TextButton(
                                         onPressed: () {
-                                          context.go('/forgot_password');
+                                          Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      const ForgotPassword()));
                                         },
                                         child: const Text(
                                           'Forgot your Password',
@@ -371,7 +384,11 @@ class _SignInPageState extends State<SignInPage> {
                                           const Text('Don\'t have an account?'),
                                           TextButton(
                                             onPressed: () {
-                                              context.go('/sign_up');
+                                              Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                      builder: (context) =>
+                                                          const SignUpPage()));
                                             },
                                             child: const Text(
                                               'Sign Up',

@@ -282,30 +282,28 @@ class _SignInPageState extends State<SignInPage> {
                                                 isLoading = true;
                                               });
 
-                                              QuerySnapshot querySnapshot =
-                                                  await collectionReference
-                                                      .where('email',
-                                                          isEqualTo:
-                                                              emailController
-                                                                  .text)
-                                                      .get();
-
-                                              if (querySnapshot
-                                                  .docs.isNotEmpty) {
-                                                signInWithEmailAndPassword(
-                                                  emailController.text.trim(),
-                                                  passwordController.text
-                                                      .trim(),
-                                                );
-                                              } else {
-                                                ScaffoldMessenger.of(context)
-                                                    .showSnackBar(
-                                                  CustomSnackBar(
-                                                      'User isn\'t available',
-                                                      kRedColor,
-                                                      3),
-                                                );
-                                              }
+                                              var snapshots =
+                                                  collectionReference
+                                                      .snapshots();
+                                              late bool isUserFound = false;
+                                              snapshots.forEach((snapshot) {
+                                                for (var doc in snapshot.docs) {
+                                                  print(doc.id);
+                                                  if (doc.id ==
+                                                      emailController.text) {
+                                                    signInWithEmailAndPassword(
+                                                      emailController.text
+                                                          .trim(),
+                                                      passwordController.text
+                                                          .trim(),
+                                                    );
+                                                    setState(() {
+                                                      isUserFound = true;
+                                                    });
+                                                    break;
+                                                  }
+                                                }
+                                              });
                                             }
                                             setState(() {
                                               isLoading = false;

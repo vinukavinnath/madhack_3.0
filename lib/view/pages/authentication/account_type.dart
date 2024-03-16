@@ -1,3 +1,4 @@
+import 'package:async_and_await/view/pages/employer/jobposting.dart';
 import 'package:async_and_await/view/pages/user_profile_creation/aboutpage1.dart';
 import 'package:flutter/material.dart';
 import 'package:async_and_await/constants.dart';
@@ -10,7 +11,6 @@ class AccountType extends StatefulWidget {
 }
 
 class _AccountTypeState extends State<AccountType> {
-
   bool isWork = false;
   bool isHire = false;
 
@@ -87,7 +87,7 @@ class _AccountTypeState extends State<AccountType> {
                                       Navigator.of(context).pushReplacement(
                                         MaterialPageRoute(
                                           builder: (context) =>
-                                          const AboutPage1(),
+                                              const AboutPage1(),
                                         ),
                                       );
                                     });
@@ -101,16 +101,16 @@ class _AccountTypeState extends State<AccountType> {
                                           ? kOceanBlueColor
                                           : kLowOpacityLightBlueColor,
                                       border:
-                                      Border.all(color: kOceanBlueColor),
+                                          Border.all(color: kOceanBlueColor),
                                       borderRadius: BorderRadius.circular(12.0),
                                     ),
                                     child: Row(
                                       mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
+                                          MainAxisAlignment.spaceBetween,
                                       children: <Widget>[
                                         Padding(
                                           padding:
-                                          const EdgeInsets.only(left: 32.0),
+                                              const EdgeInsets.only(left: 32.0),
                                           child: Text(
                                             'I\'m an Applicant',
                                             style: TextStyle(
@@ -133,7 +133,7 @@ class _AccountTypeState extends State<AccountType> {
                                                 ? const Color(0xFF1d58f5)
                                                 : kLightBlueColor,
                                             borderRadius:
-                                            BorderRadius.circular(12.0),
+                                                BorderRadius.circular(12.0),
                                           ),
                                           child: Icon(
                                             Icons.arrow_forward,
@@ -158,16 +158,15 @@ class _AccountTypeState extends State<AccountType> {
                                 ),
                                 GestureDetector(
                                   onTap: () {
-                                    // setState(() {
-                                    //   isWork = false;
-                                    //   isHire = true;
-                                    //   Navigator.of(context).pushReplacement(
-                                    //     MaterialPageRoute(
-                                    //       builder: (context) =>
-                                    //       const ProfileClient(),
-                                    //     ),
-                                    //   );
-                                    // });
+                                    setState(() {
+                                      isWork = false;
+                                      isHire = true;
+                                      Navigator.of(context).pushReplacement(
+                                        MaterialPageRoute(
+                                          builder: (context) => JobPosting(),
+                                        ),
+                                      );
+                                    });
                                   },
                                   child: Container(
                                     margin: const EdgeInsets.symmetric(
@@ -178,16 +177,16 @@ class _AccountTypeState extends State<AccountType> {
                                           ? kOceanBlueColor
                                           : kLowOpacityLightBlueColor,
                                       border:
-                                      Border.all(color: kOceanBlueColor),
+                                          Border.all(color: kOceanBlueColor),
                                       borderRadius: BorderRadius.circular(12.0),
                                     ),
                                     child: Row(
                                       mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
+                                          MainAxisAlignment.spaceBetween,
                                       children: <Widget>[
                                         Padding(
                                           padding:
-                                          const EdgeInsets.only(left: 32.0),
+                                              const EdgeInsets.only(left: 32.0),
                                           child: Text(
                                             'I\'m an Employer',
                                             style: TextStyle(
@@ -210,7 +209,7 @@ class _AccountTypeState extends State<AccountType> {
                                                 ? const Color(0xFF1d58f5)
                                                 : kLightBlueColor,
                                             borderRadius:
-                                            BorderRadius.circular(12.0),
+                                                BorderRadius.circular(12.0),
                                           ),
                                           child: Icon(
                                             Icons.arrow_forward,

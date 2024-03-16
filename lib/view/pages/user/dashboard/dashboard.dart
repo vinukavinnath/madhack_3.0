@@ -1,6 +1,6 @@
-import 'package:async_and_await/screens/user/dashboard/qualifications.dart';
-import 'package:async_and_await/screens/user/dashboard/skills.dart';
-import 'package:async_and_await/screens/user/dashboard/updateaboutpage.dart';
+import 'package:async_and_await/view/pages/user/dashboard/updateaboutpage.dart';
+import 'package:async_and_await/view/pages/user/dashboard/qualifications.dart';
+import 'package:async_and_await/view/pages/user/dashboard/skills.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -35,7 +35,6 @@ class DashBoard extends StatefulWidget {
   final TextEditingController qualificationdateController;
   final TextEditingController qualificationdescriptionController;
 
-
   // Initialize userUid in the constructor
   DashBoard({
     Key? key,
@@ -66,7 +65,6 @@ class DashBoard extends StatefulWidget {
     required FirebaseAuth auth,
     required CollectionReference<Object?> users,
     required BuildContext context,
-
   }) : super(key: key);
 
   @override
@@ -74,7 +72,6 @@ class DashBoard extends StatefulWidget {
 }
 
 class _DashBoardState extends State<DashBoard> {
-
   late Stream<DocumentSnapshot<Map<String, dynamic>>> userStream;
 
   @override
@@ -94,7 +91,9 @@ class _DashBoardState extends State<DashBoard> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              SizedBox(height: 80,),
+              SizedBox(
+                height: 80,
+              ),
               StreamBuilder<DocumentSnapshot>(
                 stream: userStream,
                 builder: (context, snapshot) {
@@ -103,14 +102,17 @@ class _DashBoardState extends State<DashBoard> {
                   } else if (snapshot.hasError) {
                     return Text('Error: ${snapshot.error}');
                   } else {
-                    var userData = snapshot.data!.data() as Map<String, dynamic>;
-                    String profileImageUrl = userData['user_profileimage'] ?? '';
+                    var userData =
+                        snapshot.data!.data() as Map<String, dynamic>;
+                    String profileImageUrl =
+                        userData['user_profileimage'] ?? '';
 
                     return CircleAvatar(
                       radius: 50,
                       backgroundImage: profileImageUrl.isNotEmpty
                           ? NetworkImage(profileImageUrl)
-                          : AssetImage('assets/default_image.jpg') as ImageProvider, // Replace with your default image asset
+                          : AssetImage('assets/default_image.jpg')
+                              as ImageProvider, // Replace with your default image asset
                     );
                   }
                 },
@@ -142,7 +144,6 @@ class _DashBoardState extends State<DashBoard> {
                 },
                 child: Text('Update Profile'),
               ),
-
               ListTile(
                 title: Text('About me'),
                 trailing: Icon(Icons.add),

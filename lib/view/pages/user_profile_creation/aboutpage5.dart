@@ -1,5 +1,4 @@
 import 'package:async_and_await/constants.dart';
-import 'package:async_and_await/screens/user/dashboard/dashboard.dart';
 import 'package:async_and_await/view/pages/home_page_applicant.dart';
 import 'package:async_and_await/view/widgets/hidden_drawer_user.dart';
 import 'package:async_and_await/view/widgets/primary_button.dart';

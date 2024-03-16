@@ -15,7 +15,7 @@ class InviteFriends extends StatefulWidget {
 class _InviteFriendsState extends State<InviteFriends> {
   void shareApp() async {
     final result = await Share.shareWithResult(
-        'Be a proud member of async_and_await Family! https://tinyurl.com/5n6dapka',
+        'Be a proud member of async_and_await Family! https://shorturl.at/dinGQ',
         subject: 'Download JobConnect Now!');
     if (result.status == ShareResultStatus.success) {}
   }

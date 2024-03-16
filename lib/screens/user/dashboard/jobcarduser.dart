@@ -21,8 +21,7 @@ class JobCardUser extends StatelessWidget {
   Widget build(BuildContext context) {
     String? currentUserUid = FirebaseAuth.instance.currentUser?.uid;
 
-    Query query = FirebaseFirestore.instance.collection('Jobs')
-        .where('emp_uid', isEqualTo: currentUserUid);
+    Query query = FirebaseFirestore.instance.collection('Jobs');
 
     // Apply sorting if sortBy is not null
     if (sortBy != null) {
@@ -31,10 +30,7 @@ class JobCardUser extends StatelessWidget {
 
     return SingleChildScrollView(
       child: StreamBuilder(
-        stream: FirebaseFirestore.instance.collection('Jobs')
-            .where('emp_uid', isEqualTo: currentUserUid)
-            .where('emp_location', isEqualTo: desiredLocation) // Add this line for filtering by location
-            .snapshots(),
+        stream: query.snapshots(),
         builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return CircularProgressIndicator();
@@ -44,13 +40,19 @@ class JobCardUser extends StatelessWidget {
             return Text('No job data available.');
           } else {
             return Container(
-              height: MediaQuery.of(context).size.height * 0.8,
+              height: MediaQuery
+                  .of(context)
+                  .size
+                  .height * 0.8,
               child: ListView(
                 children: snapshot.data!.docs.map((DocumentSnapshot document) {
                   final jobData = document.data() as Map<String, dynamic>;
 
                   // Check if the job matches the search keyword
-                  if (searchKeyword != null && jobData['emp_category'] != null && !jobData['emp_category'].toLowerCase().contains(searchKeyword!.toLowerCase())) {
+                  if (searchKeyword != null &&
+                      jobData['emp_category'] != null &&
+                      !jobData['emp_category'].toLowerCase().contains(
+                          searchKeyword!.toLowerCase())) {
                     // Skip this job if it doesn't match the search keyword
                     return SizedBox.shrink();
                   }
@@ -64,14 +66,19 @@ class JobCardUser extends StatelessWidget {
                         viewedBy.add(currentUserUid);
                         await FirebaseFirestore.instance.collection('Jobs')
                             .doc(document.id)
-                            .update({'viewed_by': viewedBy, 'view_count': FieldValue.increment(1)});
+                            .update({
+                          'viewed_by': viewedBy,
+                          'view_count': FieldValue.increment(1)
+                        });
                       }
 
                       //Navigate to job details page
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => JobDetailsPageuser(jobData: jobData,docid: document.id),
+                          builder: (context) =>
+                              JobDetailsPageuser(
+                                  jobData: jobData, docid: document.id),
                         ),
                       );
                     },
@@ -84,7 +91,8 @@ class JobCardUser extends StatelessWidget {
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(8),
                             image: DecorationImage(
-                              image: NetworkImage(jobData['emp_profile_img'] ?? ''),
+                              image: NetworkImage(
+                                  jobData['emp_profile_img'] ?? ''),
                               fit: BoxFit.cover,
                             ),
                           ),
@@ -103,11 +111,13 @@ class JobCardUser extends StatelessWidget {
                               visible: jobData['view_count'] != null,
                               child: Row(
                                 children: [
-                                  Icon(Icons.remove_red_eye, color: Colors.black45, size: 16),
+                                  Icon(Icons.remove_red_eye,
+                                      color: Colors.black45, size: 16),
                                   SizedBox(width: 4),
                                   Text(
                                     '${jobData['view_count']} ',
-                                    style: TextStyle(color: Colors.black45, fontSize: 12),
+                                    style: TextStyle(
+                                        color: Colors.black45, fontSize: 12),
                                   ),
                                 ],
                               ),
@@ -128,7 +138,8 @@ class JobCardUser extends StatelessWidget {
                                 Flexible(
                                   child: Text(
                                     jobData['emp_location'] ?? '',
-                                    style: TextStyle(fontWeight: FontWeight.bold),
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.bold),
                                     overflow: TextOverflow.ellipsis,
                                   ),
                                 ),
@@ -139,13 +150,15 @@ class JobCardUser extends StatelessWidget {
                               children: [
                                 Container(
                                   color: Colors.lightBlueAccent,
-                                  padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                                  padding: EdgeInsets.symmetric(
+                                      horizontal: 8, vertical: 4),
                                   child: Text(jobData['emp_workspace'] ?? ''),
                                 ),
                                 SizedBox(width: 12),
                                 Container(
                                   color: Colors.lightBlueAccent,
-                                  padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                                  padding: EdgeInsets.symmetric(
+                                      horizontal: 8, vertical: 4),
                                   child: Text(jobData['emp_jobtype'] ?? ''),
                                 ),
                                 SizedBox(width: 8),
@@ -154,7 +167,9 @@ class JobCardUser extends StatelessWidget {
                                     child: Align(
                                       alignment: Alignment.topRight,
                                       child: Text(
-                                        '\$${jobData['emp_min_Salary'] ?? ''}-${jobData['emp_max_Salary'] ?? ''} / Mo',
+                                        '\$${jobData['emp_min_Salary'] ??
+                                            ''}-${jobData['emp_max_Salary'] ??
+                                            ''} / Mo',
                                         style: TextStyle(fontSize: 10),
                                       ),
                                     ),

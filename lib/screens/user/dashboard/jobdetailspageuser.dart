@@ -2,15 +2,14 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-import '../user/dashboard/applynow.dart';
-import 'checkrequest.dart';
+import 'acceptpage.dart';
+import 'applynow.dart';
 
-class JobDetailsPage extends StatelessWidget {
+class JobDetailsPageuser extends StatelessWidget {
   final Map<String, dynamic> jobData;
   final String docid; // Add docid field
 
-
-  const JobDetailsPage({
+  const JobDetailsPageuser({
     Key? key,
     required this.jobData,
     required this.docid,
@@ -40,15 +39,14 @@ class JobDetailsPage extends StatelessWidget {
               // Add space between image and other details
               // Display job details here
               Text('Category: ${jobData['emp_category'] ?? ''}'),
-              SizedBox(height: 8.0,),
+              SizedBox(height: 8.0),
               Text('Location: ${jobData['emp_location'] ?? ''}'),
-              SizedBox(height: 8.0,),
+              SizedBox(height: 8.0),
               Text('Workspace: ${jobData['emp_workspace'] ?? ''}'),
-              SizedBox(height: 8.0,),
+              SizedBox(height: 8.0),
               Text('Job Type: ${jobData['emp_jobtype'] ?? ''}'),
-              SizedBox(height: 8.0,),
-              Text('Salary: \$${jobData['emp_min_Salary'] ??
-                  ''}-${jobData['emp_max_Salary'] ?? ''} / Mo'),
+              SizedBox(height: 8.0),
+              Text('Salary: \$${jobData['emp_min_Salary'] ?? ''}-${jobData['emp_max_Salary'] ?? ''} / Mo'),
               // Add more details as needed
             ],
           ),
@@ -61,23 +59,34 @@ class JobDetailsPage extends StatelessWidget {
           children: [
             ElevatedButton(
               onPressed: () {
-                // Navigate to the next page
+                // Navigate to the ApplyNow page
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => CheckRequest(
-                        jobData: jobData,
-                        docid: docid,
-                    ), // Replace ApplyNowPage with your next page
+                    builder: (context) => ApplyNow(
+                      jobData: jobData,
+                      docid: docid,
+                    ),
                   ),
                 );
               },
-              child: Text('Check the Requests'),
+              child: Text('Apply Now'),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => AcceptPage(
+                      docId: docid,), // Replace ApplyNowPage with your next page
+                  ),
+                );
+              },
+              child: Text('Check Feedbacks'),
             ),
           ],
         ),
       ),
-
     );
   }
 }

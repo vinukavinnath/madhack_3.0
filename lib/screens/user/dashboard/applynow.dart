@@ -1,6 +1,9 @@
+import 'package:async_and_await/screens/user/dashboard/jobshowing.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+
+import 'acceptpage.dart';
 
 class ApplyNow extends StatefulWidget {
   final Map<String, dynamic> jobData;
@@ -19,6 +22,7 @@ class ApplyNow extends StatefulWidget {
 class _ApplyNowState extends State<ApplyNow> {
   TextEditingController cvController = TextEditingController();
   TextEditingController messageController = TextEditingController();
+  TextEditingController feedbackController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -90,13 +94,24 @@ class _ApplyNowState extends State<ApplyNow> {
             ElevatedButton(
               onPressed: () {
                 applyToJob(context);
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => JobShowing(), // Replace ApplyNowPage with your next page
+                  ),
+                );
               },
               child: Text('Submit'),
             ),
             IconButton(
               onPressed: () {
-                // Function to handle saving the job
-                // Implement the functionality for saving the job
+                // Navigator.push(
+                //   context,
+                //   MaterialPageRoute(
+                //     builder: (context) => AcceptPage(
+                //         docId: widget.docid,), // Replace ApplyNowPage with your next page
+                //   ),
+                // );
               },
               icon: Icon(Icons.save_as_rounded),
             ),
@@ -114,6 +129,7 @@ class _ApplyNowState extends State<ApplyNow> {
       Timestamp now = Timestamp.now();
       String cv = cvController.text;
       String message = messageController.text;
+      String feedback = feedbackController.text;
 
       try {
         await FirebaseFirestore.instance
@@ -126,6 +142,8 @@ class _ApplyNowState extends State<ApplyNow> {
           'dateTime': now,
           'cv': cv,
           'message': message,
+          'feedback': feedback,
+
         });
 
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(

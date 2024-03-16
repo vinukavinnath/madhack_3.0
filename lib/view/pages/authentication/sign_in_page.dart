@@ -3,6 +3,7 @@ import 'package:async_and_await/view/pages/authentication/sign_up_page.dart';
 import 'package:async_and_await/view/pages/home_page_applicant.dart';
 import 'package:async_and_await/view/pages/home_page_employer.dart';
 import 'package:async_and_await/view/widgets/custom_snack_bar.dart';
+import 'package:async_and_await/view/widgets/hidden_drawer_user.dart';
 import 'package:async_and_await/view/widgets/loading_screen.dart';
 import 'package:async_and_await/view/widgets/primary_button.dart';
 import 'package:flutter/material.dart';
@@ -51,7 +52,7 @@ class _SignInPageState extends State<SignInPage> {
             ? Navigator.pushReplacement(
                 context,
                 MaterialPageRoute(
-                    builder: (context) => const HomePageApplicant()))
+                    builder: (context) => const HiddenDrawer()))
             : Navigator.pushReplacement(
                 context,
                 MaterialPageRoute(

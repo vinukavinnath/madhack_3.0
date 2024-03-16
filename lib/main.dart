@@ -1,6 +1,7 @@
 import 'package:async_and_await/controller/root_page.dart';
 import 'package:async_and_await/view/pages/authentication/splash_screen.dart';
 import 'package:async_and_await/view/pages/user/dashboard.dart';
+import 'package:async_and_await/view/widgets/hidden_drawer_user.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
@@ -35,7 +36,7 @@ class MyApp extends StatelessWidget {
         ),
         useMaterial3: true,
       ),
-      home: const SafeArea(child: AboutPage1()),
+      home: const SafeArea(child: HiddenDrawer()),
       // home: const SafeArea(
       //   child: VerifyAccount(),
       // ),

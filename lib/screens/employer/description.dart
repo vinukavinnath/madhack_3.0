@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'Location.dart';
 import 'databaseconnectionemp.dart';
 
 class Description extends StatefulWidget {
@@ -11,22 +11,123 @@ class _DescriptionState extends State<Description> {
   final industryController = TextEditingController();
   final categoryController = TextEditingController();
   final jobpositionController = TextEditingController();
+  final minSalaryController = TextEditingController();
+  final maxSalaryController = TextEditingController();
+  final jobDescriptionController = TextEditingController();
+  final requirementsController = TextEditingController();
+  final responsibilitiesController = TextEditingController();
+  final aboutCompanyController = TextEditingController();
+  final companynameController = TextEditingController();
+  final companyProfileImageController = TextEditingController();
+  String selectedLocation = ''; // Selected location variable
 
-  String selectedIndustry = 'Design & Development';
-  List<String> industries = ['Design & Development', 'Testing', 'Other Industry'];
+  String selectedIndustry = 'Software Development Industry';
+  List<String> industries = [
+    'Software Development Industry',
+    'Information Technology (IT) Services Industry',
+    'Web Development Industry',
+    'Data Science and Analytics Industry',
+    'Cybersecurity Industry',
+    'UI/UX Design Industry',
+    'Software Testing and Quality Assurance Industry',
+    'Project Management Industry',
+    'Artificial Intelligence (AI) Industry',
+    'Mobile App Development'
+  ];
 
-  String selectedCategory = 'UI/UX Design';
-  List<String> Categories = ['UI/UX Design', 'Frontend Design', 'Other Industry'];
+  String selectedCategory = 'Software Engineer/Developer';
+  Map<String, List<String>> categoryMap = {
+    'Software Development Industry': [
+      'Software Engineer/Developer',
+      'Full-Stack Developer',
+      'Front-End Developer',
+      'Back-End Developer',
+      'Mobile App Developer',
+      'Game Developer',
+      'DevOps Engineer',
+      'Quality Assurance (QA) Engineer'
+    ],
+    'Information Technology (IT) Services Industry': [
+      'IT Support Specialist',
+      'Network Engineer',
+      'System Administrator',
+      'IT Security Analyst',
+      'Database Administrator',
+      'Cloud Solutions Architect',
+      'IT Project Manager'
+    ],
+    'Web Development Industry': [
+      'Web Designer',
+      'Web Developer',
+      'E-commerce Developer',
+      'CMS Developer',
+      'Web Accessibility Specialist'
+    ],
+    'Data Science and Analytics Industry': [
+      'Data Scientist',
+      'Data Analyst',
+      'BI Analyst',
+      'Data Engineer',
+      'Machine Learning Engineer',
+      'Big Data Specialist'
+    ],
+    'Cybersecurity Industry': [
+      'Cybersecurity Analyst',
+      'Information Security Specialist',
+      'Ethical Hacker',
+      'SOC Analyst',
+      'Security Consultant'
+    ],
+    'UI/UX Design Industry': [
+      'UI Designer',
+      'UX Designer',
+      'Interaction Designer',
+      'User Researcher',
+      'Product Designer'
+    ],
+    'Software Testing and Quality Assurance Industry': [
+      'QA Tester',
+      'Test Automation Engineer',
+      'QA Analyst',
+      'Performance Testing Engineer',
+      'Software Quality Assurance Manager'
+    ],
+    'Project Management Industry': [
+      'IT Project Manager',
+      'Scrum Master',
+      'Agile Coach',
+      'Product Owner'
+    ],
+    'Artificial Intelligence (AI) Industry': [
+      'AI Engineer',
+      'Machine Learning Engineer',
+      'NLP Engineer',
+      'Computer Vision Engineer',
+      'AI Research Scientist'
+    ],
+    'Mobile App Development': [
+      'iOS Developer',
+      'Android Developer',
+      'Cross-Platform Mobile Developer',
+      'Mobile App Tester',
+      'Mobile Product Manager'
+    ],
+  };
 
-  String selectedjobtype = 'Full Time';
-  List<String> jobtype = ['Full Time', 'Half Time', 'Other jobtype'];
+  String selectedJobType = 'Full Time';
+  List<String> jobTypes = ['Full Time', 'Remote', 'Internship', 'Contract'];
 
-  String selectedworkspace = 'On-Site';
-  List<String> workspace = ['On-Site', 'online', 'Other workspace'];
+  String selectedWorkspace = 'On-Site';
+  Map<String, List<String>> workspaceMap = {
+    'Full Time': ['On-Site'],
+    'Remote': ['Remote', 'Co-working Space'],
+    'Internship': ['On-Site'],
+    'Contract': ['Client Site', 'On-Site'],
+  };
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold( // Wrap with Scaffold to ensure Material widget
+    return Scaffold(
       appBar: AppBar(
         title: Text('Description'),
       ),
@@ -40,22 +141,27 @@ class _DescriptionState extends State<Description> {
                 items: industries.map((String value) {
                   return DropdownMenuItem<String>(
                     value: value,
-                    child: Text(value),
+                    child: SizedBox(
+                      width: 200, // Adjust width as needed
+                      child: Text(value),
+                    ),
                   );
                 }).toList(),
                 onChanged: (String? value) {
                   setState(() {
                     selectedIndustry = value!;
+                    selectedCategory = categoryMap[selectedIndustry]![0];
                   });
                 },
                 decoration: InputDecoration(
                   labelText: 'Industry',
                 ),
               ),
+
               SizedBox(height: 10),
               DropdownButtonFormField<String>(
                 value: selectedCategory,
-                items: Categories.map((String value) {
+                items: categoryMap[selectedIndustry]!.map((String value) {
                   return DropdownMenuItem<String>(
                     value: value,
                     child: Text(value),
@@ -79,8 +185,8 @@ class _DescriptionState extends State<Description> {
               ),
               SizedBox(height: 10),
               DropdownButtonFormField<String>(
-                value: selectedjobtype,
-                items: jobtype.map((String value) {
+                value: selectedJobType,
+                items: jobTypes.map((String value) {
                   return DropdownMenuItem<String>(
                     value: value,
                     child: Text(value),
@@ -88,17 +194,18 @@ class _DescriptionState extends State<Description> {
                 }).toList(),
                 onChanged: (String? value) {
                   setState(() {
-                    selectedjobtype = value!;
+                    selectedJobType = value!;
+                    selectedWorkspace = workspaceMap[selectedJobType]![0];
                   });
                 },
                 decoration: InputDecoration(
-                  labelText: 'Jobtype',
+                  labelText: 'Job Type',
                 ),
               ),
               SizedBox(height: 10),
               DropdownButtonFormField<String>(
-                value: selectedworkspace,
-                items: workspace.map((String value) {
+                value: selectedWorkspace,
+                items: workspaceMap[selectedJobType]!.map((String value) {
                   return DropdownMenuItem<String>(
                     value: value,
                     child: Text(value),
@@ -106,36 +213,62 @@ class _DescriptionState extends State<Description> {
                 }).toList(),
                 onChanged: (String? value) {
                   setState(() {
-                    selectedworkspace = value!;
+                    selectedWorkspace = value!;
                   });
                 },
                 decoration: InputDecoration(
-                  labelText: 'Jobtype',
+                  labelText: 'Workspace',
                 ),
               ),
               SizedBox(height: 40),
               ElevatedButton(
                 onPressed: () async {
-                  // Get the current user's UID
-                  User? user = FirebaseAuth.instance.currentUser;
-                  if (user != null) {
-                    // Get the email associated with the user's UID
-                    String? email = user.email;
-                    if (email != null) {
-                      // Call FirebaseOperations method to add data to Firestore
-                      FirebaseOperations.addDataToFirebase(
-                        context,
-                        email, // Pass user's email as doc ID
-                        selectedIndustry,
-                        selectedCategory,
-                        jobpositionController.text,
-                        selectedjobtype,
-                        selectedworkspace,
-                      );
-                    }
-                  }
+                  String docId = UniqueKey().toString();
+                  String minSalary = minSalaryController.text;
+                  String maxSalary = maxSalaryController.text;
+
+                  FirebaseOperations.addDataToFirebase(
+                    context,
+                    docId,
+                    selectedIndustry,
+                    selectedCategory,
+                    jobpositionController.text,
+                    selectedJobType,
+                    selectedWorkspace,
+                    minSalary,
+                    maxSalary,
+                    jobDescriptionController.text,
+                    requirementsController.text,
+                    responsibilitiesController.text,
+                    aboutCompanyController.text,
+                    companynameController.text,
+                    companyProfileImageController.text,
+                    selectedLocation,
+                  );
+
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => Location(
+                        docId: docId,
+                        industry: selectedIndustry,
+                        category: selectedCategory,
+                        jobposition: jobpositionController.text,
+                        jobtype: selectedJobType,
+                        workspace: selectedWorkspace,
+                        minSalary: minSalary,
+                        maxSalary: maxSalary,
+                        jobdes: jobDescriptionController.text,
+                        requirements: requirementsController.text,
+                        resposibilities: responsibilitiesController.text,
+                        aboutcomp: aboutCompanyController.text,
+                        compname: companynameController.text,
+                        compprofileimage: companyProfileImageController.text,
+                      ),
+                    ),
+                  );
                 },
-                child: Text('Submit'),
+                child: Text('Next'),
               ),
             ],
           ),
@@ -144,4 +277,3 @@ class _DescriptionState extends State<Description> {
     );
   }
 }
-

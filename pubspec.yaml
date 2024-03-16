@@ -41,6 +41,9 @@ dependencies:
   get: ^4.6.6
   firebase_storage: ^11.6.8
   image_picker: ^0.8.3
+  syncfusion_flutter_charts: ^24.2.9
+  flutter_xlider: ^3.5.0
+
 
 
 dev_dependencies:

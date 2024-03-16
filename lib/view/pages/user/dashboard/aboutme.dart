@@ -1,3 +1,4 @@
+import 'package:async_and_await/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -5,102 +6,126 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 class AboutMe extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('About Me'),
-      ),
-      body: FutureBuilder(
-        future: getCurrentUserData(),
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(
-              child: CircularProgressIndicator(),
-            );
-          }
-          if (snapshot.hasError) {
-            return Center(
-              child: Text('Error: ${snapshot.error}'),
-            );
-          }
-          // Extract user data from the snapshot
-          var userData = snapshot.data as Map<String, dynamic>;
-          return Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  'About Me',
-                  style: TextStyle(
-                    fontSize: 24,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                SizedBox(height: 10),
-                userData.containsKey('user_fullname')
-                    ? Text(
-                  userData['user_fullname'] ?? '', // Display user fullname
-                  style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                  ),
-                )
-                    : Text(
-                  'Please sign in to view your profile',
-                  style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                SizedBox(height: 10),
-                userData.containsKey('about_me')
-                    ? Text(
-                  userData['about_me'] ?? '', // Display user about me information
-                  style: TextStyle(fontSize: 16),
-                )
-                    : userData.containsKey('user_fullname')
-                    ? Text(
-                  'No additional information found',
-                  style: TextStyle(fontSize: 16),
-                )
-                    : Container(),
-                // Add more information about yourself as needed
-              ],
+    final double screenHeight = MediaQuery.of(context).size.height;
+    final double screenWidth = MediaQuery.of(context).size.width;
+    return SafeArea(
+      child: Scaffold(
+        appBar: AppBar(
+          title: const Text(
+            'About Me',
+            style: kHeading1TextStyle,
+          ),
+          centerTitle: true,
+          leading: IconButton(
+            icon: const Icon(
+              Icons.navigate_before,
+              color: kDeepBlueColor,
             ),
-          );
-        },
+            onPressed: () {
+              Navigator.pop(context);
+            },
+          ),
+          flexibleSpace: Stack(
+            children: [
+              // Background Image
+              Positioned.fill(
+                child: Image.asset(
+                  'assets/images/noise.webp',
+                  fit: BoxFit.cover,
+                ),
+              ),
+            ],
+          ),
+        ),
+        body: Container(
+          width: screenWidth,
+          height: screenHeight,
+          padding: const EdgeInsets.symmetric(horizontal: 24.0),
+          decoration: const BoxDecoration(
+            image: DecorationImage(
+                image: AssetImage(
+                  'assets/images/noise.webp',
+                ),
+                fit: BoxFit.fill),
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              SizedBox(height: 10),
+              StreamBuilder<User?>(
+                stream: FirebaseAuth.instance.authStateChanges(),
+                builder: (context, userSnapshot) {
+                  if (userSnapshot.connectionState ==
+                      ConnectionState.waiting) {
+                    return CircularProgressIndicator(); // Show loading indicator
+                  }
+                  if (!userSnapshot.hasData || userSnapshot.data == null) {
+                    return Text(
+                        'User not logged in'); // Handle case where user is not logged in
+                  }
+                  final User user = userSnapshot.data!;
+                  final String userEmail =
+                      user.email ?? ''; // Get current user's email
+
+                  return StreamBuilder<DocumentSnapshot>(
+                    stream: FirebaseFirestore.instance
+                        .collection('User')
+                        .doc(userEmail)
+                        .snapshots(),
+                    builder: (context, snapshot) {
+                      if (!snapshot.hasData) {
+                        return CircularProgressIndicator(); // Show loading indicator
+                      }
+                      var userData = snapshot.data?.data() as Map<String,
+                          dynamic>?; // Cast data to Map<String, dynamic>
+                      var fullName = userData?['user_fullname'] ?? '';
+                      var dob = userData?['user_dob'] ?? '';
+                      var email = userData?['user_email'] ?? '';
+                      var mobile = userData?['user_mobile'] ?? '';
+                      var links = (userData?['user_links'] as List<dynamic>?)
+                              ?.cast<String>() ??
+                          [];
+
+                      return Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'Full Name: $fullName',
+                            style: TextStyle(fontSize: 16),
+                          ),
+                          Text(
+                            'Date of Birth: $dob',
+                            style: TextStyle(fontSize: 16),
+                          ),
+                          Text(
+                            'Email: $email',
+                            style: TextStyle(fontSize: 16),
+                          ),
+                          Text(
+                            'Mobile: $mobile',
+                            style: TextStyle(fontSize: 16),
+                          ),
+                          Text(
+                            'Links:',
+                            style: TextStyle(fontSize: 16),
+                          ),
+                          // Display each link in the 'user_links' array
+                          for (var link in links)
+                            Text(
+                              link,
+                              style: TextStyle(fontSize: 16),
+                            ),
+                        ],
+                      );
+                    },
+                  );
+                },
+              ),
+              // Add more information about yourself as needed
+            ],
+          ),
+        ),
       ),
     );
-  }
-
-  // Function to get current user's data from Firestore
-  Future<Map<String, dynamic>> getCurrentUserData() async {
-    // Get current user
-    User? user = FirebaseAuth.instance.currentUser;
-    if (user == null) {
-      // Return an empty map if the user is not authenticated
-      return {};
-    }
-
-    // Get current user's email
-    String email = user.email ?? '';
-    if (email.isEmpty) {
-      // Return an empty map if the user's email is null or empty
-      return {};
-    }
-
-    // Query Firestore to get user data based on email
-    var querySnapshot = await FirebaseFirestore.instance
-        .collection('User')
-        .doc(email) // Assuming doc ID is the user email
-        .get();
-    if (!querySnapshot.exists) {
-      // Return an empty map if user data not found
-      return {};
-    }
-
-    // Extract user data from the query snapshot
-    var userData = querySnapshot.data() as Map<String, dynamic>;
-    return userData;
   }
 }

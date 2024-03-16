@@ -62,7 +62,7 @@ class _HiddenDrawerEmployerState extends State<HiddenDrawerEmployer> {
   Widget build(BuildContext context) {
     return HiddenDrawerMenu(
       screens: _pages,
-      backgroundColorMenu: kOceanBlueColor,
+      backgroundColorMenu: kLightBlueColor,
       initPositionSelected: 0,
       slidePercent: 50,
       isDraggable: true,

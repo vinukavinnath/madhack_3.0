@@ -73,125 +73,127 @@ class _DetailsState extends State<Details> {
   Widget build(BuildContext context) {
     final double screenHeight = MediaQuery.of(context).size.height;
 
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text(
-          'Description',
-          style: kHeading1TextStyle,
-        ),
-        centerTitle: true,
-        leading: IconButton(
-          icon: const Icon(
-            Icons.navigate_before,
-            color: kDeepBlueColor,
+    return SafeArea(
+      child: Scaffold(
+        appBar: AppBar(
+          title: const Text(
+            'Description',
+            style: kHeading1TextStyle,
           ),
-          onPressed: () {
-            Navigator.pop(context);
-          },
-        ),
-        flexibleSpace: Stack(
-          children: [
-            // Background Image
-            Positioned.fill(
-              child: Image.asset(
-                'assets/images/noise.webp',
-                fit: BoxFit.cover,
-              ),
+          centerTitle: true,
+          leading: IconButton(
+            icon: const Icon(
+              Icons.navigate_before,
+              color: kDeepBlueColor,
             ),
-          ],
-        ),
-      ),
-      body: Container(
-        height: screenHeight,
-        padding: const EdgeInsets.symmetric(horizontal: 24.0),
-        decoration: const BoxDecoration(
-          image: DecorationImage(
-              image: AssetImage(
-                'assets/images/noise.webp',
-              ),
-              fit: BoxFit.fill),
-        ),
-        child: SingleChildScrollView(
-          child: Column(
-            children: <Widget>[
-              SizedBox(height: 10),
-              imageUrl != null
-                  ? Image.network(imageUrl!)
-                  : SizedBox(), // Display uploaded image if available
-              SizedBox(height: 10),
-              SecondaryButton(
-                process: _pickImageFromGallery,
-                title: 'Select Profile Image',
-              ),
-              SizedBox(height: 10),
-              TextFormField(
-                controller: jobDescriptionController,
-                decoration: InputDecoration(
-                  labelText: 'Job Description',
+            onPressed: () {
+              Navigator.pop(context);
+            },
+          ),
+          flexibleSpace: Stack(
+            children: [
+              // Background Image
+              Positioned.fill(
+                child: Image.asset(
+                  'assets/images/noise.webp',
+                  fit: BoxFit.cover,
                 ),
-              ),
-              SizedBox(height: 10),
-              TextFormField(
-                controller: requirementsController,
-                decoration: InputDecoration(
-                  labelText: 'Requirements',
-                ),
-              ),
-              SizedBox(height: 10),
-              TextFormField(
-                controller: responsibilitiesController,
-                decoration: InputDecoration(
-                  labelText: 'Responsibilities',
-                ),
-              ),
-              SizedBox(height: 10),
-              TextFormField(
-                controller: companynameController,
-                decoration: InputDecoration(
-                  labelText: 'Company Name',
-                ),
-              ),
-              SizedBox(height: 10),
-              TextFormField(
-                controller: aboutCompanyController,
-                decoration: InputDecoration(
-                  labelText: 'About Company',
-                ),
-              ),
-              SizedBox(height: 40),
-              PrimaryButton(
-                process: () async {
-                  String docId = widget.docId;
-                  String jobImageUrl = imageUrl ?? '';
-
-                  FirebaseOperations.addDataToFirebase(
-                    context,
-                    docId,
-                    widget.industry,
-                    widget.category,
-                    widget.jobposition,
-                    widget.jobtype,
-                    widget.workspace,
-                    widget.selectedLocation,
-                    widget.minSalary,
-                    widget.maxSalary,
-                    jobDescriptionController.text,
-                    requirementsController.text,
-                    responsibilitiesController.text,
-                    companynameController.text,
-                    aboutCompanyController.text,
-                    jobImageUrl, // Pass the image URL to Firestore
-                  );
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const HiddenDrawerEmployer(),
-                    ),
-                  );
-                },
-                title: 'Post Job',
               ),
             ],
+          ),
+        ),
+        body: Container(
+          height: screenHeight,
+          padding: const EdgeInsets.symmetric(horizontal: 24.0),
+          decoration: const BoxDecoration(
+            image: DecorationImage(
+                image: AssetImage(
+                  'assets/images/noise.webp',
+                ),
+                fit: BoxFit.fill),
+          ),
+          child: SingleChildScrollView(
+            child: Column(
+              children: <Widget>[
+                SizedBox(height: 10),
+                imageUrl != null
+                    ? Image.network(imageUrl!)
+                    : SizedBox(), // Display uploaded image if available
+                SizedBox(height: 10),
+                SecondaryButton(
+                  process: _pickImageFromGallery,
+                  title: 'Select Profile Image',
+                ),
+                SizedBox(height: 10),
+                TextFormField(
+                  controller: jobDescriptionController,
+                  decoration: InputDecoration(
+                    labelText: 'Job Description',
+                  ),
+                ),
+                SizedBox(height: 10),
+                TextFormField(
+                  controller: requirementsController,
+                  decoration: InputDecoration(
+                    labelText: 'Requirements',
+                  ),
+                ),
+                SizedBox(height: 10),
+                TextFormField(
+                  controller: responsibilitiesController,
+                  decoration: InputDecoration(
+                    labelText: 'Responsibilities',
+                  ),
+                ),
+                SizedBox(height: 10),
+                TextFormField(
+                  controller: companynameController,
+                  decoration: InputDecoration(
+                    labelText: 'Company Name',
+                  ),
+                ),
+                SizedBox(height: 10),
+                TextFormField(
+                  controller: aboutCompanyController,
+                  decoration: InputDecoration(
+                    labelText: 'About Company',
+                  ),
+                ),
+                SizedBox(height: 40),
+                PrimaryButton(
+                  process: () async {
+                    String docId = widget.docId;
+                    String jobImageUrl = imageUrl ?? '';
+      
+                    FirebaseOperations.addDataToFirebase(
+                      context,
+                      docId,
+                      widget.industry,
+                      widget.category,
+                      widget.jobposition,
+                      widget.jobtype,
+                      widget.workspace,
+                      widget.selectedLocation,
+                      widget.minSalary,
+                      widget.maxSalary,
+                      jobDescriptionController.text,
+                      requirementsController.text,
+                      responsibilitiesController.text,
+                      companynameController.text,
+                      aboutCompanyController.text,
+                      jobImageUrl, // Pass the image URL to Firestore
+                    );
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const HiddenDrawerEmployer(),
+                      ),
+                    );
+                  },
+                  title: 'Post Job',
+                ),
+              ],
+            ),
           ),
         ),
       ),

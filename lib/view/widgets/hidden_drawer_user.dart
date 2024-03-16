@@ -4,6 +4,7 @@ import 'package:async_and_await/view/pages/authentication/sign_in_page.dart';
 import 'package:async_and_await/view/pages/help_support.dart';
 import 'package:async_and_await/view/pages/home_page_applicant.dart';
 import 'package:async_and_await/view/pages/invite_friends.dart';
+import 'package:async_and_await/view/pages/user/dashboard.dart';
 import 'package:async_and_await/view/pages/user/dashboard/jobshowing.dart';
 import 'package:flutter/material.dart';
 import 'package:hidden_drawer_menu/hidden_drawer_menu.dart';
@@ -35,6 +36,13 @@ class _HiddenDrawerState extends State<HiddenDrawer> {
       ),
       ScreenHiddenDrawer(
         ItemHiddenMenu(
+            name: 'Dashboard',
+            baseStyle: selectedTextStyle,
+            selectedStyle: kHeading1TextStyle),
+        DashBoard(),
+      ),
+      ScreenHiddenDrawer(
+        ItemHiddenMenu(
             name: 'Help & Support',
             baseStyle: selectedTextStyle,
             selectedStyle: kHeading1TextStyle),
@@ -62,7 +70,7 @@ class _HiddenDrawerState extends State<HiddenDrawer> {
   Widget build(BuildContext context) {
     return HiddenDrawerMenu(
       screens: _pages,
-      backgroundColorMenu: kOceanBlueColor,
+      backgroundColorMenu: kLightBlueColor,
       initPositionSelected: 0,
       slidePercent: 50,
       isDraggable: true,

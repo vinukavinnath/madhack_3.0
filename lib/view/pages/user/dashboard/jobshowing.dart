@@ -15,27 +15,32 @@ class _JobShowingState extends State<JobShowing> {
 
   @override
   Widget build(BuildContext context) {
+    final double screenHeight=MediaQuery.of(context).size.height;
     return Scaffold(
-      appBar: AppBar(
-        leading: IconButton(
-          icon: Icon(Icons.menu),
-          onPressed: () => Navigator.pop(context),
+      body: Container(
+        height: screenHeight,
+        padding: const EdgeInsets.symmetric(horizontal: 24.0),
+        decoration: const BoxDecoration(
+          image: DecorationImage(
+              image: AssetImage(
+                'assets/images/noise.webp',
+              ),
+              fit: BoxFit.fill),
         ),
-      ),
-      body: SingleChildScrollView(
-        padding: EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: <Widget>[
-            _buildSearchBarWithFilter(),
-            SizedBox(height: 16.0), // Adjust as needed for spacing
-            SizedBox(height: 16.0), // Adjust as needed for spacing
-            JobCardUser(
-                searchKeyword: searchKeyword,
-                desiredLocation:
-                    desiredLocation), // Pass desiredLocation to JobCard
-            // Add other content here
-          ],
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: <Widget>[
+              _buildSearchBarWithFilter(),
+              SizedBox(height: 16.0), // Adjust as needed for spacing
+              SizedBox(height: 16.0), // Adjust as needed for spacing
+              JobCardUser(
+                  searchKeyword: searchKeyword,
+                  desiredLocation:
+                      desiredLocation), // Pass desiredLocation to JobCard
+              // Add other content here
+            ],
+          ),
         ),
       ),
     );

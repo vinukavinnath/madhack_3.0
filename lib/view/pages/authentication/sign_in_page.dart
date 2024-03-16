@@ -58,6 +58,7 @@ class _SignInPageState extends State<SignInPage> {
                     builder: (context) => const HomePageEmployer()));
       }
     } on FirebaseAuthException catch (e) {
+      print(e);
       if (e.code == 'invalid-mail') {
         emailController.clear();
         passwordController.clear();
@@ -304,7 +305,18 @@ class _SignInPageState extends State<SignInPage> {
                                                   }
                                                 }
                                               });
+
+                                              // if (!isUserFound) {
+                                              //   ScaffoldMessenger.of(context)
+                                              //       .showSnackBar(
+                                              //     CustomSnackBar(
+                                              //         'User isn\'t available',
+                                              //         kRedColor,
+                                              //         3),
+                                              //   );
+                                              // }
                                             }
+
                                             setState(() {
                                               isLoading = false;
                                             });
